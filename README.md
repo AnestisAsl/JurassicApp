@@ -19,3 +19,4 @@ A full stack Web Application that displays informations about fossils and dinosa
 * drei
 * React-Scroll-Parallax
 
+Images are not provided.
