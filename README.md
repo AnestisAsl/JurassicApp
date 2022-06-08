@@ -2,8 +2,10 @@
 
 ### Currently working on....
 ### The files and many updates will be provided soon.
+### README will be updated soon
 
-A full stack Web Application that displays informations about fossils and dinosaurs in general. For this project i created my own API that delivers informations from my local postgreSQL database with information i collected from different sources(will be provided soon).
+## a short description
+A full stack Web Application with the tech stack listed bellow. I cretaed my own API that delivers information from my local postgreSQL database. The project uses state-of-the-art technologies and libraries that are combined in harmony.
 
 ## Technologies Used<br>
 
@@ -19,4 +21,4 @@ A full stack Web Application that displays informations about fossils and dinosa
 * drei
 * React-Scroll-Parallax
 
-Images are not provided.
+
