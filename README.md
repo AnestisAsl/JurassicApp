@@ -14,16 +14,20 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 
 ## Technologies Used<br>
 
-* Next.js
+### Frontend
+
 * TypeScript
 * Three.js
-* Prisma 2.0
-* GraphQL
-* Apollo
 * TailwindCSS
-* PostgreSQL
 * react-three-fiber
 * drei
 * React-Scroll-Parallax
 
+### Backend
+
+* Next.js
+* Prisma 2.0
+* GraphQL
+* Apollo
+* PostgreSQL
 
