@@ -30,4 +30,5 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * GraphQL
 * Apollo
 * PostgreSQL
+* Prisma Studio
 
