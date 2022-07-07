@@ -9,9 +9,15 @@ import { ParallaxBanner } from "react-scroll-parallax";
 import { BannerLayer } from "react-scroll-parallax/dist/components/ParallaxBanner/types";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
-import { useRef, useState } from "react";
+import { useRef, useState, Suspense } from "react";
 import { animated, useSpring, config } from "@react-spring/three";
-
+import {
+  GiDinosaurBones,
+  GiAmmoniteFossil,
+  GiMoonClaws,
+  GiReptileTail,
+} from "react-icons/gi";
+import { SiFossilscm } from "react-icons/si";
 softShadows();
 
 const getDinos = gql`
@@ -118,42 +124,50 @@ const Home = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <h1 className="font-MontserratAlternates">
+      <h1 className="font-MontserratAlternates text-2xl">
         Start your Jurassic Journey now!
       </h1>
-      <h1 className="font-Montserrat">From the birth to the extinction</h1>
-      <h1>{data.dinosaurs[0].height}</h1>
-      <div className="w-screen h-screen">
-        <Canvas shadows>
-          <ambientLight intensity={0.5} />
-          <directionalLight
-            castShadow
-            position={[0, 10, 0]}
-            intensity={1.5}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-            shadow-camera-far={50}
-            shadow-camera-left={-10}
-            shadow-camera-right={10}
-            shadow-camera-top={10}
-            shadow-camera-bottom={-10}
-          />
-          <group>
-            <Plane />
-
-            <Meteor radius={[1]} texture={"/JurassicLandscape.jpg"} />
-            <Sphere
-              position={[0, 1, 0]}
-              color="lightblue"
-              args={[1.8, 30, 30]}
-              texture="/Earth.jpg"
+      <h1 className="font-Montserrat  text-xl	">
+        From the birth to the extinction.
+      </h1>
+      {/* <h1>{data.dinosaurs[0].height}</h1> */}
+      <Suspense fallback={<Loading />}>
+        <div className="w-screen h-screen">
+          <Canvas shadows>
+            <ambientLight intensity={0.5} />
+            <directionalLight
+              castShadow
+              position={[0, 10, 0]}
+              intensity={1.5}
+              shadow-mapSize-width={1024}
+              shadow-mapSize-height={1024}
+              shadow-camera-far={50}
+              shadow-camera-left={-10}
+              shadow-camera-right={10}
+              shadow-camera-top={10}
+              shadow-camera-bottom={-10}
             />
-            {/* <Particles /> */}
-          </group>
-          <OrbitControls />
-        </Canvas>
-      </div>
-      <h1>Covering all three Periods</h1>
+            <group>
+              <Plane />
+
+              <Meteor radius={[1]} texture={"/asteroid.jpg"} />
+              <Sphere
+                position={[0, 1, 0]}
+                color="lightblue"
+                args={[1.8, 30, 30]}
+                texture="/Earth.jpg"
+              />
+              {/* <Particles /> */}
+            </group>
+            {/* <OrbitControls /> */}
+          </Canvas>
+        </div>
+      </Suspense>
+
+      <h1 className="font-MontserratAlternates  text-xl">
+        Covering the Age of Dinosaurs, the Mesozoic Era and its three geologic
+        time periods
+      </h1>
       <ParallaxBanner
         layers={[
           { image: "/JurassicLandscape.jpg" },
@@ -175,66 +189,94 @@ const Home = () => {
         ]}
         style={{ aspectRatio: "2 / 1" }}
       ></ParallaxBanner>
-      {/* <Parallax translateY={[20, -20]} translateX={[100, -100]} easing="ease">
-        <div className="h-20 w-20 bg-amber-500">
-          <h1>{data?.dinosaurs.map((dinosaur: any) => dinosaur.name)}</h1>
-        </div>
-      </Parallax>
-      <Parallax translateY={[-50, 50]} translateX={[-50, 50]} easing="easeIn">
-        <div className="h-20 w-20 bg-black"></div>
-      </Parallax>
-      <Parallax rotateX={[0, 360]} rotateY={[0, 360]}>
-        <div className="h-20 w-20 bg-lime-300"></div>
-      </Parallax>
-      <Parallax rotateX={[0, 360]} rotateY={[0, 360]} rotateZ={[0, 360]}>
-        <div className="h-20 w-20 bg-emerald-700"></div>
-      </Parallax>
-      <Parallax scale={[0, 1]}>
-        <div className="h-20 w-20 bg-cyan-700"></div>
-      </Parallax>
-      <Parallax opacity={[0, 1]} easing="easeInQuad">
-        <div className="h-20 w-20 bg-blue-700"></div>
-      </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -300]} easing="ease">
-        <div className="h-20 w-20 bg-amber-500"></div>
-      </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -400]} easing="ease">
-        <div className="h-20 w-20 bg-amber-500"></div>
-      </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -500]} easing="ease">
-        <div className="h-20 w-20 bg-amber-500"></div>
-      </Parallax>
-      <Parallax
-        translateY={[20, -20]}
-        translateX={[100, -600]}
-        rotateX={[0, 360]}
-        rotateY={[0, 360]}
-        rotateZ={[0, 360]}
-      >
-        <h1>ANESTIS</h1>
-      </Parallax> */}
+
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
-          <h1>size comparison!</h1>
-          <h2>Detailed charts</h2>
+          <h1 className="font-MontserratAlternates  text-xl	">
+            Size comparison!
+            <GiMoonClaws size={64} />
+          </h1>
+          <h2 className="font-Montserrat  text-lg	">Detailed charts.</h2>
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+            <Link href="/charts">Charts</Link>
+          </button>
         </div>
       </Parallax>
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
-          <h1>Fossils exploration!</h1>
-          <h2>MAPS</h2>
-          <Link href="/fossilsMap">Fossils</Link>
+          <h1 className="font-MontserratAlternates  text-xl	">
+            Fossils exploration!
+            <GiAmmoniteFossil size={64} />
+          </h1>
+          <h2 className="font-Montserrat  text-lg	">Map.</h2>
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+            <Link href="/fossilsMap">Fossils</Link>
+          </button>
         </div>
       </Parallax>
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
-          <h1>News</h1>
-          <h2>and fun facts</h2>
+          <h1 className="font-MontserratAlternates  text-xl	">About section!</h1>
+          <h2 className="font-Montserrat  text-lg	">Tech stack.</h2>
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+            <Link href="/about">About</Link>
+          </button>
         </div>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -600]}>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
         <div className="py-10">
-          <h1>some words about extinction</h1>
+          <h1 className="font-MontserratAlternates  text-xl	">
+            Some words about extinction!
+            <GiDinosaurBones size={64} />
+          </h1>
+          <h2 className="font-Montserrat  text-lg	">
+            The cause, the effect and the details.
+          </h2>
+          <p className="font-Montserrat  text-lg">
+            The most common theory is that an asteroid collided with the Earth
+            approximately 66 million years,
+            <br />
+            creating the well known Chicxulub crater at Mexico. The consequences
+            were devastating and in <br />
+            combination with volcanic eruptions and atmospheric dust to lead in
+            large scale climate and <br /> food chain changes.
+          </p>
+        </div>
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+        <div className="py-10">
+          <h1 className="font-MontserratAlternates  text-xl	">
+            Mesozoic Era!
+            <GiReptileTail size={64} />
+          </h1>
+          <h2 className="font-Montserrat  text-lg	">
+            Some more informations below.
+          </h2>
+          <p className="font-Montserrat  text-lg">
+            Lasting from about 252 to 66 million years ago
+            <br /> consist of three geological time periods listed below. <br />{" "}
+            The Earth was much warmer than today and the continents
+            <br /> weren't shaped yet. There was a huge variety in flora <br />{" "}
+            and fauna with the huge reptiles called dinosaures to reign.
+          </p>
+        </div>
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -200]}>
+        <div className="py-10">
+          <li className="font-MontserratAlternates  text-xl	">Triassic</li>
+          <p className="font-Montserrat  text-lg">252-201 million years ago.</p>
+        </div>
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -200]}>
+        <div className="py-10">
+          <li className="font-MontserratAlternates  text-xl	">Jurassic</li>
+          <p className="font-Montserrat  text-lg">201-145 million years ago.</p>
+        </div>
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -200]}>
+        <div className="py-10">
+          <li className="font-MontserratAlternates  text-xl	">Cretaceous</li>
+          <p className="font-Montserrat  text-lg">145-66 million years ago.</p>
         </div>
       </Parallax>
     </div>
