@@ -124,7 +124,7 @@ const Home = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <h1 className="font-MontserratAlternates text-2xl">
+      <h1 className="font-MontserratAlternates text-3xl">
         Start your Jurassic Journey now!
       </h1>
       <h1 className="font-Montserrat  text-xl	">
