@@ -5,7 +5,12 @@ const FossilsDetailsAtImage = (props: any) => {
         if (fossil.location === props.continent) {
           return (
             <li key={fossil.id}>
-              At {fossil.date} from {fossil.paleontologists}
+              {
+                props.dinosaurs.filter(
+                  (dinosaur: any) => dinosaur.id === fossil.dinosaurId
+                )[0].name
+              }{" "}
+              at {fossil.date}
             </li>
           );
         }
