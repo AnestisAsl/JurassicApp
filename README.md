@@ -1,10 +1,7 @@
 # JurassicApp
 
-### Currently working on....
-### The files and some updates will be provided soon.
-### README will be updated soon
+## Description<br>
 
-## a short description
 A full stack Web Application with the tech stack listed bellow. I cretaed my own API that delivers information from my local **postgreSQL** database using the **Apollo-GraphQL** stack. The project as a **Next.js** app was created using the command
 ```
 npx create-next-app@latest --ts
