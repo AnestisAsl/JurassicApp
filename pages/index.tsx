@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Parallax } from "react-scroll-parallax";
-import { OrbitControls, softShadows, useTexture } from "@react-three/drei";
-import { Text } from "@react-three/drei";
+import { softShadows, useTexture } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { gql, useQuery } from "@apollo/client";
 import { ParallaxBanner } from "react-scroll-parallax";
@@ -17,7 +16,6 @@ import {
   GiMoonClaws,
   GiReptileTail,
 } from "react-icons/gi";
-import { SiFossilscm } from "react-icons/si";
 softShadows();
 
 const getDinos = gql`

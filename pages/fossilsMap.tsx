@@ -2,20 +2,11 @@ import * as React from "react";
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { ParallaxBanner } from "react-scroll-parallax";
 import { gql, useQuery } from "@apollo/client";
 import FossilsDetails from "../components/FosiilsDetails";
 import FossilsDetailsAtImage from "../components/FosilDetailAtImage";
-import {
-  GiDinosaurBones,
-  GiAmmoniteFossil,
-  GiFossil,
-  GiTripleClaws,
-  GiMoonClaws,
-  GiReptileTail,
-} from "react-icons/gi";
-import { SiFossilscm } from "react-icons/si";
+import { GiFossil } from "react-icons/gi";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
 
@@ -30,7 +21,11 @@ const getFossils = gql`
     }
     dinosaurs {
       id
+      name
       height
+      weight
+      mesozoicEra
+      facts
     }
   }
 `;
@@ -42,26 +37,18 @@ const FossilsMap: NextPage = () => {
   const [isShownFossilsListAs, setIsShownFossilsListAs] = useState(false);
   const [isShownFossilsListOc, setIsShownFossilsListOc] = useState(false);
   const { data, error, loading } = useQuery(getFossils);
-  console.log(data);
-
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
   return (
-    <div className="w-full h-full flex  flex-col items-center justify-center">
+    <div className="w-full h-full flex  flex-col items-center justify-center font-MontserratAlternates">
       <Head>
         <title>Fossils</title>
       </Head>
-      <h1>Fossils around the globe.</h1>
+      <h1 className="text-3xl">Fossils around the globe.</h1>
       <div className="flex flex-row">
-        <GiDinosaurBones size={64} />
-        <SiFossilscm size={64} />
-        <GiAmmoniteFossil size={64} />
         <GiFossil size={64} />
-        <GiTripleClaws size={64} />
-        <GiMoonClaws size={64} />
-        <GiReptileTail size={64} />
       </div>
-      <h2>Discoveries all over the years.</h2>
+      <h2 className="text-xl">Discoveries over the years.</h2>
 
       <ParallaxBanner
         layers={[
@@ -81,6 +68,7 @@ const FossilsMap: NextPage = () => {
                   {isShownFossilsListAm && (
                     <FossilsDetailsAtImage
                       fossils={data.fossils}
+                      dinosaurs={data.dinosaurs}
                       continent="America"
                     />
                   )}
@@ -97,6 +85,7 @@ const FossilsMap: NextPage = () => {
                     {isShownFossilsListEu && (
                       <FossilsDetailsAtImage
                         fossils={data.fossils}
+                        dinosaurs={data.dinosaurs}
                         continent="Europe"
                       />
                     )}
@@ -112,6 +101,7 @@ const FossilsMap: NextPage = () => {
                     {isShownFossilsListAf && (
                       <FossilsDetailsAtImage
                         fossils={data.fossils}
+                        dinosaurs={data.dinosaurs}
                         continent="Africa"
                       />
                     )}
@@ -129,6 +119,7 @@ const FossilsMap: NextPage = () => {
                     {isShownFossilsListAs && (
                       <FossilsDetailsAtImage
                         fossils={data.fossils}
+                        dinosaurs={data.dinosaurs}
                         continent="Asia"
                       />
                     )}
@@ -144,6 +135,7 @@ const FossilsMap: NextPage = () => {
                     {isShownFossilsListOc && (
                       <FossilsDetailsAtImage
                         fossils={data.fossils}
+                        dinosaurs={data.dinosaurs}
                         continent="Oceania"
                       />
                     )}
@@ -155,13 +147,32 @@ const FossilsMap: NextPage = () => {
         ]}
         style={{ aspectRatio: "2 / 1" }}
       ></ParallaxBanner>
-      <h1>More details</h1>
-      <FossilsDetails fossils={data.fossils} continent="America" />
-      <FossilsDetails fossils={data.fossils} continent="Europe" />
-      <FossilsDetails fossils={data.fossils} continent="Asia" />
-      <FossilsDetails fossils={data.fossils} continent="Africa" />
-      <FossilsDetails fossils={data.fossils} continent="Oceania" />
-      <Link href="/">Home</Link>
+      <h1 className="text-3xl">More details</h1>
+      <FossilsDetails
+        fossils={data.fossils}
+        dinosaurs={data.dinosaurs}
+        continent="America"
+      />
+      <FossilsDetails
+        fossils={data.fossils}
+        dinosaurs={data.dinosaurs}
+        continent="Europe"
+      />
+      <FossilsDetails
+        fossils={data.fossils}
+        dinosaurs={data.dinosaurs}
+        continent="Asia"
+      />
+      <FossilsDetails
+        fossils={data.fossils}
+        dinosaurs={data.dinosaurs}
+        continent="Africa"
+      />
+      <FossilsDetails
+        fossils={data.fossils}
+        dinosaurs={data.dinosaurs}
+        continent="Oceania"
+      />
     </div>
   );
 };
