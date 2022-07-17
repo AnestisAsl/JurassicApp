@@ -16,6 +16,7 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * TypeScript
 * Three.js
 * TailwindCSS
+* Victory
 * react-three-fiber
 * drei
 * React-Scroll-Parallax
