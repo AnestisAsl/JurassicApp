@@ -16,9 +16,6 @@ const Header = () => {
       <button className="mx-4">
         <Link href="/about">About</Link>
       </button>
-      <button className="mx-4">
-        <Link href="/">Change theme</Link>
-      </button>
     </div>
   );
 };
