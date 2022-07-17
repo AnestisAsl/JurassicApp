@@ -29,3 +29,5 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * PostgreSQL
 * Prisma Studio
 
+## Images<br>
+In the public folder(default by using the npx command written above), include three images with names asteroid,Earth,JurassicLandscape(with relevant content)
