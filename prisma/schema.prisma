@@ -25,4 +25,6 @@ model Fossil {
   location String
   date String
   paleontologists String
+  latitude Float?
+  longitude Float? 
 }
