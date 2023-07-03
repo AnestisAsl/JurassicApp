@@ -7,7 +7,7 @@ A full stack Web Application with the tech stack listed bellow. I cretaed my own
 npx create-next-app@latest --ts
 ```
 and then the modules and libraries(*listed below*) were installed using npm.
-It combines frontend libraries for better and modern UI, including 3D objects and animations.
+It combines frontend libraries for better and modern UI, including 3D objects and animations.A map was also introduced in the latest release using the **LeafletMap** JS library.
 
 ## Technologies Used<br>
 
@@ -20,6 +20,7 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * react-three-fiber
 * drei
 * React-Scroll-Parallax
+* LeafletMap JS
 
 ### Backend
 
