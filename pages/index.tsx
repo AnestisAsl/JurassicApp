@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Parallax } from "react-scroll-parallax";
-import { softShadows, useTexture } from "@react-three/drei";
+import { softShadows, useTexture, Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { gql, useQuery } from "@apollo/client";
 import { ParallaxBanner } from "react-scroll-parallax";
@@ -15,6 +15,15 @@ import {
   GiAmmoniteFossil,
   GiMoonClaws,
   GiReptileTail,
+  GiNeedleJaws,
+  GiInsectJaws,
+  GiCrocJaws,
+  GiBackboneShell,
+  GiSharkJaws,
+  GiBeastEye,
+  GiCarnivoreMouth,
+  GiSharkBite,
+  GiCarnivorousPlant,
 } from "react-icons/gi";
 softShadows();
 
@@ -34,7 +43,12 @@ const getDinos = gql`
 
 const Home = () => {
   const { data, error, loading } = useQuery(getDinos);
+  const isBrowser = () => typeof window !== "undefined";
 
+  function scrollToTop() {
+    if (!isBrowser()) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
 
@@ -54,42 +68,13 @@ const Home = () => {
       </mesh>
     );
   };
-  const Meteor = ({ radius, texture }: any): any => {
-    const meteorTexture: any = useTexture(texture);
-    const meshRef: any = useRef();
-    useFrame(() => (meshRef.current.rotation.y += 0.04));
-    const [trigger, setTrigger] = useState(false);
-    const { positionSpring } = useSpring({
-      positionSpring: trigger,
-      config: config.molasses,
-    });
-    const { positionX } = useSpring({
-      positionX: positionSpring.to(
-        [0, 0.25, 0.5, 0.75, 1],
-        [-6, -3, -2, -1, 0]
-      ),
-    });
-    const { positionZ } = useSpring({
-      positionZ: positionSpring.to(
-        [0, 0.25, 0.5, 0.75, 1],
-        [-4, -1.5, -1, 0, 0]
-      ),
-    });
-    const { positionY } = useSpring({
-      positionY: positionSpring.to([0, 0.25, 0.5, 0.75, 1], [5, 3, 2, 1.5, 1]),
-    });
+  const Text3D = ({ position, color, args, texture }: any): any => {
     return (
-      <animated.mesh
-        position-x={positionX}
-        position-y={positionY}
-        position-z={positionZ}
-        castShadow
-        ref={meshRef}
-        onClick={() => setTrigger(!trigger)}
-      >
-        <dodecahedronGeometry attach="geometry" args={radius} />
-        <meshStandardMaterial attach="material" map={meteorTexture} />
-      </animated.mesh>
+      <mesh castShadow>
+        <Text color="black" anchorX="center" anchorY="middle">
+          hello world!
+        </Text>
+      </mesh>
     );
   };
   const Plane = (): any => {
@@ -100,14 +85,7 @@ const Home = () => {
       </mesh>
     );
   };
-  const Particles = (): any => {
-    return (
-      <mesh>
-        <sphereBufferGeometry attach="geometry" args={[2, 3]} />
-        <pointsMaterial attach="material" color={"red"} />
-      </mesh>
-    );
-  };
+
   const gradientOverlay: BannerLayer = {
     opacity: [0, 0.9],
     shouldAlwaysCompleteAnimation: true,
@@ -128,7 +106,6 @@ const Home = () => {
       <h1 className="font-Montserrat  text-xl	">
         From the birth to the extinction.
       </h1>
-      {/* <h1>{data.dinosaurs[0].height}</h1> */}
       <Suspense fallback={<Loading />}>
         <div className="w-screen h-screen">
           <Canvas shadows>
@@ -147,22 +124,20 @@ const Home = () => {
             />
             <group>
               <Plane />
-
-              <Meteor radius={[1]} texture={"/asteroid.jpg"} />
               <Sphere
                 position={[0, 1, 0]}
                 color="lightblue"
                 args={[1.8, 30, 30]}
                 texture="/Earth.jpg"
               />
-              {/* <Particles /> */}
+              {/* <Text3D position={[10, 1, 10]} /> */}
             </group>
             {/* <OrbitControls /> */}
           </Canvas>
         </div>
       </Suspense>
 
-      <h1 className="font-MontserratAlternates  text-xl">
+      <h1 className="font-MontserratAlternates  text-xl py-10">
         Covering the Age of Dinosaurs, the Mesozoic Era and its three geologic
         time periods
       </h1>
@@ -221,12 +196,17 @@ const Home = () => {
           </button>
         </div>
       </Parallax>
+      <h1 className="font-Montserrat  text-3xl	py-10">
+        Prehistoric information...the boring stuff
+      </h1>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">
+        Some words about extinction!
+      </h1>
+      <Parallax scale={[1, 3]}>
+        <GiDinosaurBones size={64} />
+      </Parallax>
       <Parallax translateY={[20, -20]} translateX={[100, -100]}>
         <div className="py-10">
-          <h1 className="font-MontserratAlternates  text-xl	">
-            Some words about extinction!
-            <GiDinosaurBones size={64} />
-          </h1>
           <h2 className="font-Montserrat  text-lg	">
             The cause, the effect and the details.
           </h2>
@@ -241,15 +221,12 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">Mesozoic Era!</h1>
+      <Parallax scale={[1, 3]}>
+        <GiReptileTail size={64} />
+      </Parallax>
       <Parallax translateY={[20, -20]} translateX={[100, -100]}>
         <div className="py-10">
-          <h1 className="font-MontserratAlternates  text-xl	">
-            Mesozoic Era!
-            <GiReptileTail size={64} />
-          </h1>
-          <h2 className="font-Montserrat  text-lg	">
-            Some more informations below.
-          </h2>
           <p className="font-Montserrat  text-lg">
             Lasting from about 252 to 66 million years ago
             <br /> consist of three geological time periods listed below. <br />{" "}
@@ -259,24 +236,110 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
+      <li className="font-MontserratAlternates  text-xl	">Triassic</li>
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <li className="font-MontserratAlternates  text-xl	">Triassic</li>
           <p className="font-Montserrat  text-lg">252-201 million years ago.</p>
         </div>
       </Parallax>
+      <li className="font-MontserratAlternates  text-xl	">Jurassic</li>
+
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <li className="font-MontserratAlternates  text-xl	">Jurassic</li>
           <p className="font-Montserrat  text-lg">201-145 million years ago.</p>
         </div>
       </Parallax>
+      <li className="font-MontserratAlternates  text-xl	">Cretaceous</li>
+
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <li className="font-MontserratAlternates  text-xl	">Cretaceous</li>
           <p className="font-Montserrat  text-lg">145-66 million years ago.</p>
         </div>
       </Parallax>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">Weather!</h1>
+
+      <Parallax scale={[1, 3]}>
+        <GiNeedleJaws size={64} />
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+        <div className="py-10">
+          <h2 className="font-Montserrat  text-lg	">Way different...</h2>
+          <p className="font-Montserrat  text-lg">
+            The most common theory is that an asteroid collided with the Earth
+            approximately 66 million years,
+            <br />
+            creating the well known Chicxulub crater at Mexico. The consequences
+            were devastating and in <br />
+            combination with volcanic eruptions and atmospheric dust to lead in
+            large scale climate and <br /> food chain changes.
+          </p>
+        </div>
+      </Parallax>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">Oceans!</h1>
+
+      <Parallax scale={[1, 3]}>
+        <GiSharkBite size={64} />
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+        <div className="py-10">
+          <h2 className="font-Montserrat  text-lg	">Wouldn't swin there...</h2>
+          <p className="font-Montserrat  text-lg">
+            The most common theory is that an asteroid collided with the Earth
+            approximately 66 million years,
+            <br />
+            creating the well known Chicxulub crater at Mexico. The consequences
+            were devastating and in <br />
+            combination with volcanic eruptions and atmospheric dust to lead in
+            large scale climate and <br /> food chain changes.
+          </p>
+        </div>
+      </Parallax>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">Plants!</h1>
+
+      <Parallax scale={[1, 3]}>
+        <GiCarnivorousPlant size={64} />
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+        <div className="py-10">
+          <h2 className="font-Montserrat  text-lg	">Lets cover them too...</h2>
+          <p className="font-Montserrat  text-lg">
+            The most common theory is that an asteroid collided with the Earth
+            approximately 66 million years,
+            <br />
+            creating the well known Chicxulub crater at Mexico. The consequences
+            were devastating and in <br />
+            combination with volcanic eruptions and atmospheric dust to lead in
+            large scale climate and <br /> food chain changes.
+          </p>
+        </div>
+      </Parallax>
+      <h1 className="font-MontserratAlternates  text-xl	py-10">Insets!</h1>
+
+      <Parallax scale={[1, 3]}>
+        <GiInsectJaws size={64} />
+      </Parallax>
+      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+        <div className="py-10">
+          <h2 className="font-Montserrat  text-lg	">I am not even kidding...</h2>
+          <p className="font-Montserrat  text-lg">
+            The most common theory is that an asteroid collided with the Earth
+            approximately 66 million years,
+            <br />
+            creating the well known Chicxulub crater at Mexico. The consequences
+            were devastating and in <br />
+            combination with volcanic eruptions and atmospheric dust to lead in
+            large scale climate and <br /> food chain changes.
+          </p>
+        </div>
+      </Parallax>
+      <Parallax scale={[1, 10]} translateY={[20, 200]}>
+        <GiBeastEye
+          size={64}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={scrollToTop}
+        />
+      </Parallax>
+      <div className="h-screen"></div>
     </div>
   );
 };
