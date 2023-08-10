@@ -24,6 +24,8 @@ const getData = gql`
       location
       date
       paleontologists
+      latitude
+      longitude
     }
     dinosaurs {
       id

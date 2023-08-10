@@ -8,8 +8,8 @@ import { ParallaxBanner } from "react-scroll-parallax";
 import { BannerLayer } from "react-scroll-parallax/dist/components/ParallaxBanner/types";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
-import { useRef, useState, Suspense } from "react";
-import { animated, useSpring, config } from "@react-spring/three";
+import { useRef, Suspense } from "react";
+
 import {
   GiDinosaurBones,
   GiAmmoniteFossil,
@@ -94,7 +94,6 @@ const Home = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-amber-200 via-yellow-900  to-black" />
     ),
   };
-
   return (
     <div className="w-full h-full flex  flex-col items-center justify-center ">
       <Head>
@@ -139,7 +138,7 @@ const Home = () => {
 
       <h1 className="font-MontserratAlternates  text-xl py-10">
         Covering the Age of Dinosaurs, the Mesozoic Era and its three geologic
-        time periods
+        time periods!
       </h1>
       <ParallaxBanner
         layers={[
@@ -148,13 +147,7 @@ const Home = () => {
             speed: -10,
             children: (
               <div className="absolute inset-0 flex flex-row  items-center justify-center">
-                <h1 className="text-8xl text-black font-thin px-10">
-                  Triassic
-                </h1>
-                <h1 className="text-8xl text-black font-thin px-10">
-                  Jurassic
-                </h1>
-                <h1 className="text-8xl text-black font-thin">Cretaceous</h1>
+                <h1 className="text-8xl text-black font-thin px-10">Explore</h1>
               </div>
             ),
           },
@@ -167,10 +160,10 @@ const Home = () => {
         <div className="py-10">
           <h1 className="font-MontserratAlternates  text-xl	">
             Size comparison!
-            <GiMoonClaws size={64} />
+            <GiMoonClaws size={128} />
           </h1>
           <h2 className="font-Montserrat  text-lg	">Detailed charts.</h2>
-          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300 cursor-pointer">
             <Link href="/charts">Charts</Link>
           </button>
         </div>
@@ -179,10 +172,10 @@ const Home = () => {
         <div className="py-10">
           <h1 className="font-MontserratAlternates  text-xl	">
             Fossils exploration!
-            <GiAmmoniteFossil size={64} />
+            <GiAmmoniteFossil size={128} />
           </h1>
           <h2 className="font-Montserrat  text-lg	">Map.</h2>
-          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300">
             <Link href="/fossilsMap">Fossils</Link>
           </button>
         </div>
@@ -191,7 +184,7 @@ const Home = () => {
         <div className="py-10">
           <h1 className="font-MontserratAlternates  text-xl	">About section!</h1>
           <h2 className="font-Montserrat  text-lg	">Tech stack.</h2>
-          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1">
+          <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300">
             <Link href="/about">About</Link>
           </button>
         </div>
@@ -202,10 +195,14 @@ const Home = () => {
       <h1 className="font-MontserratAlternates  text-xl	py-10">
         Some words about extinction!
       </h1>
-      <Parallax scale={[1, 3]}>
-        <GiDinosaurBones size={64} />
+      <Parallax translateX={[-300, 100]}>
+        <GiDinosaurBones size={128} />
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <h2 className="font-Montserrat  text-lg	">
             The cause, the effect and the details.
@@ -221,11 +218,20 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <h1 className="font-MontserratAlternates  text-xl	py-10">Mesozoic Era!</h1>
-      <Parallax scale={[1, 3]}>
-        <GiReptileTail size={64} />
+      <Parallax scale={[0, 1.5]}>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">
+          Mesozoic Era!
+        </h1>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+
+      <Parallax translateX={[-300, 100]}>
+        <GiReptileTail size={128} />
+      </Parallax>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <p className="font-Montserrat  text-lg">
             Lasting from about 252 to 66 million years ago
@@ -236,32 +242,45 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <li className="font-MontserratAlternates  text-xl	">Triassic</li>
+      <Parallax scale={[0, 1.5]}>
+        <li className="font-MontserratAlternates  text-xl	">Triassic</li>
+      </Parallax>
+
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
           <p className="font-Montserrat  text-lg">252-201 million years ago.</p>
         </div>
       </Parallax>
-      <li className="font-MontserratAlternates  text-xl	">Jurassic</li>
+      <Parallax scale={[0, 1.5]}>
+        <li className="font-MontserratAlternates  text-xl	">Jurassic</li>
+      </Parallax>
 
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
           <p className="font-Montserrat  text-lg">201-145 million years ago.</p>
         </div>
       </Parallax>
-      <li className="font-MontserratAlternates  text-xl	">Cretaceous</li>
+      <Parallax scale={[0, 1.5]}>
+        <li className="font-MontserratAlternates  text-xl	">Cretaceous</li>
+      </Parallax>
 
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
           <p className="font-Montserrat  text-lg">145-66 million years ago.</p>
         </div>
       </Parallax>
-      <h1 className="font-MontserratAlternates  text-xl	py-10">Weather!</h1>
-
-      <Parallax scale={[1, 3]}>
-        <GiNeedleJaws size={64} />
+      <Parallax scale={[0, 1.5]}>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">Weather!</h1>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+
+      <Parallax translateX={[-300, 100]}>
+        <GiNeedleJaws size={128} />
+      </Parallax>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <h2 className="font-Montserrat  text-lg	">Way different...</h2>
           <p className="font-Montserrat  text-lg">
@@ -275,12 +294,18 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <h1 className="font-MontserratAlternates  text-xl	py-10">Oceans!</h1>
-
-      <Parallax scale={[1, 3]}>
-        <GiSharkBite size={64} />
+      <Parallax scale={[0, 1.5]}>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">Oceans!</h1>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+
+      <Parallax translateX={[-300, 100]}>
+        <GiSharkBite size={128} />
+      </Parallax>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <h2 className="font-Montserrat  text-lg	">Wouldn't swin there...</h2>
           <p className="font-Montserrat  text-lg">
@@ -294,12 +319,18 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <h1 className="font-MontserratAlternates  text-xl	py-10">Plants!</h1>
-
-      <Parallax scale={[1, 3]}>
-        <GiCarnivorousPlant size={64} />
+      <Parallax scale={[0, 1.5]}>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">Plants!</h1>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+
+      <Parallax translateX={[-300, 100]}>
+        <GiCarnivorousPlant size={128} />
+      </Parallax>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <h2 className="font-Montserrat  text-lg	">Lets cover them too...</h2>
           <p className="font-Montserrat  text-lg">
@@ -313,12 +344,18 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <h1 className="font-MontserratAlternates  text-xl	py-10">Insets!</h1>
-
-      <Parallax scale={[1, 3]}>
-        <GiInsectJaws size={64} />
+      <Parallax scale={[0, 1.5]}>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">Insects!</h1>
       </Parallax>
-      <Parallax translateY={[20, -20]} translateX={[100, -100]}>
+
+      <Parallax translateX={[-300, 100]}>
+        <GiInsectJaws size={128} />
+      </Parallax>
+      <Parallax
+        translateY={[20, -20]}
+        translateX={[100, -100]}
+        opacity={[0, 1.5]}
+      >
         <div className="py-10">
           <h2 className="font-Montserrat  text-lg	">I am not even kidding...</h2>
           <p className="font-Montserrat  text-lg">
@@ -332,9 +369,9 @@ const Home = () => {
           </p>
         </div>
       </Parallax>
-      <Parallax scale={[1, 10]} translateY={[20, 200]}>
+      <Parallax translateX={[-300, 100]}>
         <GiBeastEye
-          size={64}
+          size={128}
           className="hover:fill-red-900 cursor-pointer"
           onClick={scrollToTop}
         />
