@@ -16,6 +16,8 @@ export const typeDefs = gql`
     location: String
     date: String
     paleontologists: String
+    latitude: Float
+    longitude: Float
   }
   type Query {
     dinosaurs: [Dinosaur]!
