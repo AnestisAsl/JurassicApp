@@ -9,7 +9,7 @@ import { BannerLayer } from "react-scroll-parallax/dist/components/ParallaxBanne
 import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { useRef, Suspense } from "react";
-
+import staticText from "../public/staticText.json";
 import {
   GiDinosaurBones,
   GiAmmoniteFossil,
@@ -68,15 +68,7 @@ const Home = () => {
       </mesh>
     );
   };
-  const Text3D = ({ position, color, args, texture }: any): any => {
-    return (
-      <mesh castShadow>
-        <Text color="black" anchorX="center" anchorY="middle">
-          hello world!
-        </Text>
-      </mesh>
-    );
-  };
+
   const Plane = (): any => {
     return (
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
@@ -100,11 +92,9 @@ const Home = () => {
         <title>Home</title>
       </Head>
       <h1 className="font-MontserratAlternates text-3xl">
-        Start your Jurassic Journey now!
+        {staticText.firstTitle}
       </h1>
-      <h1 className="font-Montserrat  text-xl	">
-        From the birth to the extinction.
-      </h1>
+      <h1 className="font-Montserrat  text-xl	">{staticText.secondTitle}</h1>
       <Suspense fallback={<Loading />}>
         <div className="w-screen h-screen">
           <Canvas shadows>
@@ -137,8 +127,7 @@ const Home = () => {
       </Suspense>
 
       <h1 className="font-MontserratAlternates  text-xl py-10">
-        Covering the Age of Dinosaurs, the Mesozoic Era and its three geologic
-        time periods!
+        {staticText.thirdTitle}
       </h1>
       <ParallaxBanner
         layers={[
@@ -147,7 +136,10 @@ const Home = () => {
             speed: -10,
             children: (
               <div className="absolute inset-0 flex flex-row  items-center justify-center">
-                <h1 className="text-8xl text-black font-thin px-10">Explore</h1>
+                <h1 className="text-8xl text-black font-thin px-10">
+                  {" "}
+                  {staticText.insideImageText}
+                </h1>
               </div>
             ),
           },
@@ -159,10 +151,14 @@ const Home = () => {
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
           <h1 className="font-MontserratAlternates  text-xl	">
-            Size comparison!
+            {staticText.chartsTitle1}
+
             <GiMoonClaws size={128} />
           </h1>
-          <h2 className="font-Montserrat  text-lg	">Detailed charts.</h2>
+          <h2 className="font-Montserrat  text-lg	">
+            {" "}
+            {staticText.chartsTitle2}
+          </h2>
           <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300 cursor-pointer">
             <Link href="/charts">Charts</Link>
           </button>
@@ -171,10 +167,14 @@ const Home = () => {
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
           <h1 className="font-MontserratAlternates  text-xl	">
-            Fossils exploration!
+            {staticText.fossilsTitle1}
+
             <GiAmmoniteFossil size={128} />
           </h1>
-          <h2 className="font-Montserrat  text-lg	">Map.</h2>
+          <h2 className="font-Montserrat  text-lg	">
+            {" "}
+            {staticText.fossilsTitle2}
+          </h2>
           <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300">
             <Link href="/fossilsMap">Fossils</Link>
           </button>
@@ -182,18 +182,21 @@ const Home = () => {
       </Parallax>
       <Parallax translateY={[20, -20]} translateX={[100, -600]}>
         <div className="py-10">
-          <h1 className="font-MontserratAlternates  text-xl	">About section!</h1>
-          <h2 className="font-Montserrat  text-lg	">Tech stack.</h2>
+          <h1 className="font-MontserratAlternates  text-xl	">
+            {" "}
+            {staticText.aboutTitle1}
+          </h1>
+          <h2 className="font-Montserrat  text-lg	">{staticText.aboutTitle2}</h2>
           <button className="font-Montserrat border-solid border-2 rounded-md border-emerald-400 p-1 hover:bg-emerald-300">
             <Link href="/about">About</Link>
           </button>
         </div>
       </Parallax>
       <h1 className="font-Montserrat  text-3xl	py-10">
-        Prehistoric information...the boring stuff
+        {staticText.fourthTitle}
       </h1>
       <h1 className="font-MontserratAlternates  text-xl	py-10">
-        Some words about extinction!
+        {staticText.fifthTitle}
       </h1>
       <Parallax translateX={[-300, 100]}>
         <GiDinosaurBones size={128} />
@@ -204,23 +207,20 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">
-            The cause, the effect and the details.
-          </h2>
+          <h2 className="font-Montserrat  text-lg	">{staticText.causeTitle}</h2>
           <p className="font-Montserrat  text-lg">
-            The most common theory is that an asteroid collided with the Earth
-            approximately 66 million years,
+            {staticText.causeText1}
             <br />
-            creating the well known Chicxulub crater at Mexico. The consequences
-            were devastating and in <br />
-            combination with volcanic eruptions and atmospheric dust to lead in
-            large scale climate and <br /> food chain changes.
+            {staticText.causeText2}
+            <br />
+            {staticText.causeText3}
+            <br /> {staticText.causeText4}
           </p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <h1 className="font-MontserratAlternates  text-xl	py-10">
-          Mesozoic Era!
+          {staticText.mesozoicTitle}
         </h1>
       </Parallax>
 
@@ -234,11 +234,13 @@ const Home = () => {
       >
         <div className="py-10">
           <p className="font-Montserrat  text-lg">
-            Lasting from about 252 to 66 million years ago
-            <br /> consist of three geological time periods listed below. <br />{" "}
-            The Earth was much warmer than today and the continents
-            <br /> weren't shaped yet. There was a huge variety in flora <br />{" "}
-            and fauna with the huge reptiles called dinosaures to reign.
+            {staticText.mesozoicText}
+            <br /> {staticText.mesozoicText1}
+            <br /> {staticText.mesozoicText2}
+            <br /> {staticText.mesozoicText3}
+            <br /> {staticText.mesozoicText4}
+            <br />
+            {staticText.mesozoicText5}
           </p>
         </div>
       </Parallax>
@@ -248,7 +250,7 @@ const Home = () => {
 
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <p className="font-Montserrat  text-lg">252-201 million years ago.</p>
+          <p className="font-Montserrat  text-lg">{staticText.triassicText}</p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
@@ -257,7 +259,7 @@ const Home = () => {
 
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <p className="font-Montserrat  text-lg">201-145 million years ago.</p>
+          <p className="font-Montserrat  text-lg">{staticText.jurassicText}</p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
@@ -266,11 +268,15 @@ const Home = () => {
 
       <Parallax translateY={[20, -20]} translateX={[100, -200]}>
         <div className="py-10">
-          <p className="font-Montserrat  text-lg">145-66 million years ago.</p>
+          <p className="font-Montserrat  text-lg">
+            {staticText.cretaceousText}
+          </p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
-        <h1 className="font-MontserratAlternates  text-xl	py-10">Weather!</h1>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">
+          {staticText.weatherTitle}
+        </h1>
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
@@ -282,7 +288,7 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">Way different...</h2>
+          <h2 className="font-Montserrat  text-lg	">{staticText.weatherText}</h2>
           <p className="font-Montserrat  text-lg">
             The most common theory is that an asteroid collided with the Earth
             approximately 66 million years,
