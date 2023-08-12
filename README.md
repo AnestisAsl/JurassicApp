@@ -32,4 +32,4 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * Prisma Studio
 
 ## Images<br>
-In the public folder(default by using the npx command written above), include three images with names asteroid,Earth,JurassicLandscape(with relevant content)
+In the public folder(default by using the npx command written above), include two images with names Earth,JurassicLandscape(with relevant content).The Earth image shows how the Earth was back in then Mesozoic Era.
