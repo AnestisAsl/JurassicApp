@@ -288,20 +288,25 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">{staticText.weatherText}</h2>
+          <h2 className="font-Montserrat  text-lg	">
+            {staticText.weatherTitle}
+          </h2>
           <p className="font-Montserrat  text-lg">
-            The most common theory is that an asteroid collided with the Earth
-            approximately 66 million years,
+            {staticText.weatherText}
             <br />
-            creating the well known Chicxulub crater at Mexico. The consequences
-            were devastating and in <br />
-            combination with volcanic eruptions and atmospheric dust to lead in
-            large scale climate and <br /> food chain changes.
+            {staticText.weatherText1}
+            <br />
+            {staticText.weatherText2}
+            <br />
+            {staticText.weatherText3}
+            <br />
           </p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
-        <h1 className="font-MontserratAlternates  text-xl	py-10">Oceans!</h1>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">
+          {staticText.oceansTitle}
+        </h1>
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
@@ -313,15 +318,16 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">Wouldn't swin there...</h2>
+          <h2 className="font-Montserrat  text-lg	"> {staticText.oceansText}</h2>
           <p className="font-Montserrat  text-lg">
-            The most common theory is that an asteroid collided with the Earth
-            approximately 66 million years,
+            {staticText.oceansText1}
             <br />
-            creating the well known Chicxulub crater at Mexico. The consequences
-            were devastating and in <br />
-            combination with volcanic eruptions and atmospheric dust to lead in
-            large scale climate and <br /> food chain changes.
+            {staticText.oceansText2} <br />
+            {staticText.oceansText3}
+            <br />
+            {staticText.oceansText4}
+            <br />
+            {staticText.oceansText5}
           </p>
         </div>
       </Parallax>
