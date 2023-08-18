@@ -332,7 +332,9 @@ const Home = () => {
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
-        <h1 className="font-MontserratAlternates  text-xl	py-10">Plants!</h1>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">
+          {staticText.plantsTitle}
+        </h1>
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
@@ -344,20 +346,22 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">Lets cover them too...</h2>
+          <h2 className="font-Montserrat  text-lg	">{staticText.plantsText0}</h2>
           <p className="font-Montserrat  text-lg">
-            The most common theory is that an asteroid collided with the Earth
-            approximately 66 million years,
+            {staticText.plantsText}
             <br />
-            creating the well known Chicxulub crater at Mexico. The consequences
-            were devastating and in <br />
-            combination with volcanic eruptions and atmospheric dust to lead in
-            large scale climate and <br /> food chain changes.
+            {staticText.plantsText1} <br />
+            {staticText.plantsText2} <br />
+            {staticText.plantsText3}
+            <br />
+            {staticText.plantsText4}
           </p>
         </div>
       </Parallax>
       <Parallax scale={[0, 1.5]}>
-        <h1 className="font-MontserratAlternates  text-xl	py-10">Insects!</h1>
+        <h1 className="font-MontserratAlternates  text-xl	py-10">
+          {staticText.insectsTitle}
+        </h1>
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
@@ -369,15 +373,15 @@ const Home = () => {
         opacity={[0, 1.5]}
       >
         <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">I am not even kidding...</h2>
+          <h2 className="font-Montserrat  text-lg	">
+            {staticText.insectsText1}
+          </h2>
           <p className="font-Montserrat  text-lg">
-            The most common theory is that an asteroid collided with the Earth
-            approximately 66 million years,
+            {staticText.insectsText2}
             <br />
-            creating the well known Chicxulub crater at Mexico. The consequences
-            were devastating and in <br />
-            combination with volcanic eruptions and atmospheric dust to lead in
-            large scale climate and <br /> food chain changes.
+            {staticText.insectsText3}
+            <br />
+            {staticText.insectsText4}
           </p>
         </div>
       </Parallax>
