@@ -4,6 +4,7 @@ import Head from "next/head";
 import { gql, useQuery } from "@apollo/client";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
+import Select from "react-select";
 import {
   VictoryBar,
   VictoryChart,
@@ -40,35 +41,68 @@ const getData = gql`
 
 const Charts: NextPage = () => {
   const { data, error, loading } = useQuery(getData);
+  const [selectedDinosaurs, setSelectedDinosaurs] = React.useState([]);
+  const [barDataHeight, setBarDataHeight] = React.useState<
+    { dinosaur: any; height: any; label: any }[]
+  >([]);
+  React.useEffect(() => {
+    console.log(`Option selected:`, selectedDinosaurs);
+    if (selectedDinosaurs) {
+      selectedDinosaurs.forEach((dino: any) => {
+        console.log(dino);
+        setBarDataHeight([
+          ...barDataHeight,
+          {
+            dinosaur: dino.label,
+            height: dino.value,
+            label: dino.value,
+          },
+        ]);
+      });
+    }
+    console.log(barDataHeight.length, selectedDinosaurs.length);
+  }, [selectedDinosaurs]);
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
-  const barDataHeight = [
-    {
-      dinosaur: data.dinosaurs[0].name,
-      height: data.dinosaurs[0].height,
-      label: data.dinosaurs[0].height,
-    },
-    {
-      dinosaur: data.dinosaurs[1].name,
-      height: data.dinosaurs[1].height,
-      label: data.dinosaurs[1].height,
-    },
-    {
-      dinosaur: data.dinosaurs[2].name,
-      height: data.dinosaurs[2].height,
-      label: data.dinosaurs[2].height,
-    },
-    {
-      dinosaur: data.dinosaurs[3].name,
-      height: data.dinosaurs[3].height,
-      label: data.dinosaurs[3].height,
-    },
-    {
-      dinosaur: data.dinosaurs[4].name,
-      height: data.dinosaurs[4].height,
-      label: data.dinosaurs[4].height,
-    },
+  const options = [
+    { value: data.dinosaurs[0].height, label: data.dinosaurs[0].name },
+    { value: data.dinosaurs[1].height, label: data.dinosaurs[1].name },
+    { value: data.dinosaurs[2].height, label: data.dinosaurs[2].name },
+    { value: data.dinosaurs[3].height, label: data.dinosaurs[3].name },
+    { value: data.dinosaurs[4].height, label: data.dinosaurs[4].name },
   ];
+
+  const setDinosaurs = (selectedOption: any) => {
+    setSelectedDinosaurs(selectedOption);
+  };
+
+  // const barDataHeight = [
+  //   {
+  //     dinosaur: data.dinosaurs[0].name,
+  //     height: data.dinosaurs[0].height,
+  //     label: data.dinosaurs[0].height,
+  //   },
+  //   {
+  //     dinosaur: data.dinosaurs[1].name,
+  //     height: data.dinosaurs[1].height,
+  //     label: data.dinosaurs[1].height,
+  //   },
+  //   {
+  //     dinosaur: data.dinosaurs[2].name,
+  //     height: data.dinosaurs[2].height,
+  //     label: data.dinosaurs[2].height,
+  //   },
+  //   {
+  //     dinosaur: data.dinosaurs[3].name,
+  //     height: data.dinosaurs[3].height,
+  //     label: data.dinosaurs[3].height,
+  //   },
+  //   {
+  //     dinosaur: data.dinosaurs[4].name,
+  //     height: data.dinosaurs[4].height,
+  //     label: data.dinosaurs[4].height,
+  //   },
+  // ];
   const barDataWeight = [
     {
       dinosaur: data.dinosaurs[0].name,
@@ -101,6 +135,16 @@ const Charts: NextPage = () => {
       <Head>
         <title>Charts</title>
       </Head>
+      <div className="w-96 h-96 py-10">
+        <Select
+          options={options}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          isMulti
+          name="Dinosaurs"
+          onChange={(choice) => setDinosaurs(choice)}
+        />
+      </div>
       <div className="w-screen h-screen">
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryAxis
