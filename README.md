@@ -21,6 +21,7 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * drei
 * React-Scroll-Parallax
 * LeafletMap JS
+* React Select
 
 ### Backend
 
