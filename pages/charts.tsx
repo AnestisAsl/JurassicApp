@@ -10,6 +10,7 @@ import {
   VictoryChart,
   VictoryAxis,
   VictoryTheme,
+  VictoryScatter,
   VictoryTooltip,
   VictoryStack,
   VictoryArea,
@@ -42,102 +43,80 @@ const getData = gql`
 const Charts: NextPage = () => {
   const { data, error, loading } = useQuery(getData);
   const [selectedDinosaurs, setSelectedDinosaurs] = React.useState([]);
+  const dinoOptions: any = [];
   const [barDataHeight, setBarDataHeight] = React.useState<
     { dinosaur: any; height: any; label: any }[]
+  >([]);
+  const [barDataWeight, setBarDataWeight] = React.useState<
+    { dinosaur: any; weight: any; label: any }[]
+  >([]);
+  const [scatterDataDate, setScatterDataDate] = React.useState<
+    { x: any; y: any }[]
   >([]);
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
     if (selectedDinosaurs) {
+      let tempArrayHeight: { dinosaur: any; height: any; label: any }[] = [];
+      let tempArrayWeight: { dinosaur: any; weight: any; label: any }[] = [];
+      let tempArrayDate: { x: any; y: any }[] = [];
+
       selectedDinosaurs.forEach((dino: any) => {
         console.log(dino);
-        setBarDataHeight([
-          ...barDataHeight,
-          {
-            dinosaur: dino.label,
-            height: dino.value,
-            label: dino.value,
-          },
-        ]);
+        tempArrayHeight.push({
+          dinosaur: dino.label,
+          height: dino.height,
+          label: dino.height,
+        });
+        tempArrayWeight.push({
+          dinosaur: dino.label,
+          weight: dino.weight,
+          label: dino.weight,
+        });
+        tempArrayDate.push({
+          x: dino.label,
+          y: dino.fossilDate,
+        });
       });
+      setBarDataHeight(tempArrayHeight);
+      setBarDataWeight(tempArrayWeight);
+      setScatterDataDate(tempArrayDate);
+      console.log("available dinoOptions : ", dinoOptions);
     }
-    console.log(barDataHeight.length, selectedDinosaurs.length);
   }, [selectedDinosaurs]);
+
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
-  const options = [
-    { value: data.dinosaurs[0].height, label: data.dinosaurs[0].name },
-    { value: data.dinosaurs[1].height, label: data.dinosaurs[1].name },
-    { value: data.dinosaurs[2].height, label: data.dinosaurs[2].name },
-    { value: data.dinosaurs[3].height, label: data.dinosaurs[3].name },
-    { value: data.dinosaurs[4].height, label: data.dinosaurs[4].name },
-  ];
+  if (data) {
+    if (data.dinosaurs && data.fossils) {
+      for (const d of data.dinosaurs) {
+        let relatedFossil = data.fossils.filter((fossil: any) => {
+          {
+            return fossil.dinosaurId === d.id;
+          }
+        });
+        dinoOptions.push({
+          height: d?.height,
+          label: d?.name,
+          weight: d?.weight,
+          value: d?.id,
+          fossilDate: relatedFossil[0]?.date,
+        });
+      }
+    }
+  }
 
   const setDinosaurs = (selectedOption: any) => {
     setSelectedDinosaurs(selectedOption);
   };
 
-  // const barDataHeight = [
-  //   {
-  //     dinosaur: data.dinosaurs[0].name,
-  //     height: data.dinosaurs[0].height,
-  //     label: data.dinosaurs[0].height,
-  //   },
-  //   {
-  //     dinosaur: data.dinosaurs[1].name,
-  //     height: data.dinosaurs[1].height,
-  //     label: data.dinosaurs[1].height,
-  //   },
-  //   {
-  //     dinosaur: data.dinosaurs[2].name,
-  //     height: data.dinosaurs[2].height,
-  //     label: data.dinosaurs[2].height,
-  //   },
-  //   {
-  //     dinosaur: data.dinosaurs[3].name,
-  //     height: data.dinosaurs[3].height,
-  //     label: data.dinosaurs[3].height,
-  //   },
-  //   {
-  //     dinosaur: data.dinosaurs[4].name,
-  //     height: data.dinosaurs[4].height,
-  //     label: data.dinosaurs[4].height,
-  //   },
-  // ];
-  const barDataWeight = [
-    {
-      dinosaur: data.dinosaurs[0].name,
-      weight: data.dinosaurs[0].weight,
-      label: data.dinosaurs[0].weight,
-    },
-    {
-      dinosaur: data.dinosaurs[1].name,
-      weight: data.dinosaurs[1].weight,
-      label: data.dinosaurs[1].weight,
-    },
-    {
-      dinosaur: data.dinosaurs[2].name,
-      weight: data.dinosaurs[2].weight,
-      label: data.dinosaurs[2].weight,
-    },
-    {
-      dinosaur: data.dinosaurs[3].name,
-      weight: data.dinosaurs[3].weight,
-      label: data.dinosaurs[3].weight,
-    },
-    {
-      dinosaur: data.dinosaurs[4].name,
-      weight: data.dinosaurs[4].weight,
-      label: data.dinosaurs[4].weight,
-    },
-  ];
   return (
     <div className="w-full h-full flex  flex-col items-center justify-center font-MontserratAlternates ">
       <Head>
         <title>Charts</title>
       </Head>
-      <div className="w-96 h-96 py-10">
+      <div className="w-96 py-10">
         <Select
-          options={options}
+          options={dinoOptions}
           className="basic-multi-select"
           classNamePrefix="select"
           isMulti
@@ -145,7 +124,7 @@ const Charts: NextPage = () => {
           onChange={(choice) => setDinosaurs(choice)}
         />
       </div>
-      <div className="w-screen h-screen">
+      <div className="w-screen  flex flex-row">
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryAxis
             label="Dinosaurs"
@@ -207,8 +186,93 @@ const Charts: NextPage = () => {
             ]}
           />
         </VictoryChart>
-      </div>
-      <div className="w-screen h-screen">
+
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+          <VictoryAxis
+            label="Dinosaurs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Weight in kgs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={barDataWeight}
+            style={{
+              data: { fill: "rgb(16 185 129)" },
+            }}
+            x="dinosaur"
+            y="weight"
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => ({
+                          style: { fill: "rgb(225 29 72)", width: 20 },
+                        }),
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: true }),
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => {},
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: false }),
+                      },
+                    ];
+                  },
+                },
+              },
+            ]}
+          />
+        </VictoryChart>
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+          <VictoryAxis
+            label="Dinosaurs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Date of first fossil found"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+
+          <VictoryScatter
+            style={{ data: { fill: "#c43a31" } }}
+            size={7}
+            data={scatterDataDate}
+          />
+        </VictoryChart>
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryAxis
             label="Dinosaurs"
@@ -271,62 +335,249 @@ const Charts: NextPage = () => {
           />
         </VictoryChart>
       </div>
-      <div className="w-screen h-screen">
-        <VictoryChart>
+      <div className="w-screen  flex flex-row">
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryAxis
-            label="Mesozoic Period"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 10, padding: 5 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            label="Temperature in Celsius"
+            label="Dinosaurs"
             style={{
               axis: { stroke: "black" },
               axisLabel: { fontSize: 10, padding: 30 },
               tickLabels: { fontSize: 7, padding: 5 },
             }}
           />
-          <VictoryLine
-            labels={() => ["Triassic", "Jurassic", "Cretaceous"]}
-            labelComponent={
-              <VictoryLabel
-                dy={-10}
-                textAnchor="end"
-                backgroundStyle={[
-                  { fill: "rgb(16 185 129)" },
-                  { fill: "rgb(34 211 238)" },
-                  { fill: "rgb(220 38 38)" },
-                ]}
-              />
-            }
+          <VictoryAxis
+            dependentAxis
+            label="Height in meters"
             style={{
-              data: { stroke: "rgb(16 185 129)" },
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
             }}
-            data={[
-              { x: "start", y: 28 },
-              { x: "end", y: 24 },
+          />
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={barDataHeight}
+            style={{
+              data: { fill: "rgb(16 185 129)" },
+            }}
+            x="dinosaur"
+            y="height"
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => ({
+                          style: { fill: "rgb(225 29 72)", width: 20 },
+                        }),
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: true }),
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => {},
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: false }),
+                      },
+                    ];
+                  },
+                },
+              },
             ]}
           />
-          <VictoryLine
+        </VictoryChart>
+
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+          <VictoryAxis
+            label="Dinosaurs"
             style={{
-              data: { stroke: "rgb(34 211 238)" },
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
             }}
-            data={[
-              { x: "start", y: 24 },
-              { x: "end", y: 19 },
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Weight in kgs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={barDataWeight}
+            style={{
+              data: { fill: "rgb(16 185 129)" },
+            }}
+            x="dinosaur"
+            y="weight"
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => ({
+                          style: { fill: "rgb(225 29 72)", width: 20 },
+                        }),
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: true }),
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => {},
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: false }),
+                      },
+                    ];
+                  },
+                },
+              },
             ]}
           />
-          <VictoryLine
+        </VictoryChart>
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+          <VictoryAxis
+            label="Dinosaurs"
             style={{
-              data: { stroke: "rgb(220 38 38)" },
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
             }}
-            data={[
-              { x: "start", y: 19 },
-              { x: "end", y: 23 },
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Weight in kgs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={barDataWeight}
+            style={{
+              data: { fill: "rgb(16 185 129)" },
+            }}
+            x="dinosaur"
+            y="weight"
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => ({
+                          style: { fill: "rgb(225 29 72)", width: 20 },
+                        }),
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: true }),
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => {},
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: false }),
+                      },
+                    ];
+                  },
+                },
+              },
+            ]}
+          />
+        </VictoryChart>
+        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+          <VictoryAxis
+            label="Dinosaurs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Weight in kgs"
+            style={{
+              axis: { stroke: "black" },
+              axisLabel: { fontSize: 10, padding: 30 },
+              tickLabels: { fontSize: 7, padding: 5 },
+            }}
+          />
+          <VictoryBar
+            labelComponent={<VictoryTooltip />}
+            data={barDataWeight}
+            style={{
+              data: { fill: "rgb(16 185 129)" },
+            }}
+            x="dinosaur"
+            y="weight"
+            events={[
+              {
+                target: "data",
+                eventHandlers: {
+                  onMouseOver: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => ({
+                          style: { fill: "rgb(225 29 72)", width: 20 },
+                        }),
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: true }),
+                      },
+                    ];
+                  },
+                  onMouseOut: () => {
+                    return [
+                      {
+                        target: "data",
+                        mutation: () => {},
+                      },
+                      {
+                        target: "labels",
+                        mutation: () => ({ active: false }),
+                      },
+                    ];
+                  },
+                },
+              },
             ]}
           />
         </VictoryChart>
