@@ -33,4 +33,5 @@ It combines frontend libraries for better and modern UI, including 3D objects an
 * Prisma Studio
 
 ## Images<br>
-In the public folder(default by using the npx command written above), include two images with names Earth,JurassicLandscape(with relevant content).The Earth image shows how the Earth was back in then Mesozoic Era.
+In the public folder (default by using the npx command written above), include two images with names Earth,JurassicLandscape(with relevant content).The Earth image is supposed to show how the Earth was back in then Mesozoic Era.
+Also include a TileLayer Provider from the Leaflet.js libraray to adapt the map styling to your preference.
