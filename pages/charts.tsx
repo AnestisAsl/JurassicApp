@@ -8,6 +8,7 @@ import Select from "react-select";
 import {
   VictoryBar,
   VictoryChart,
+  VictoryPie,
   VictoryAxis,
   VictoryTheme,
   VictoryScatter,
@@ -53,13 +54,15 @@ const Charts: NextPage = () => {
   const [scatterDataDate, setScatterDataDate] = React.useState<
     { x: any; y: any }[]
   >([]);
+  const [pieEraData, setPieEraData] = React.useState<{ x: any; y: any }[]>([]);
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
     if (selectedDinosaurs) {
       let tempArrayHeight: { dinosaur: any; height: any; label: any }[] = [];
       let tempArrayWeight: { dinosaur: any; weight: any; label: any }[] = [];
       let tempArrayDate: { x: any; y: any }[] = [];
-
+      let tempArrayEra: { x: any; y: any }[] = [];
+      let arrayEraCounter = [0, 0, 0];
       selectedDinosaurs.forEach((dino: any) => {
         console.log(dino);
         tempArrayHeight.push({
@@ -76,10 +79,36 @@ const Charts: NextPage = () => {
           x: dino.label,
           y: dino.fossilDate,
         });
+        if (dino.mesozoicEra === "Cretaceous") {
+          arrayEraCounter[0]++;
+        } else if (dino.mesozoicEra === "Triassic") {
+          arrayEraCounter[1]++;
+        } else {
+          arrayEraCounter[2]++;
+        }
       });
+      if (arrayEraCounter[0] > 0) {
+        tempArrayEra.push({
+          x: "Cretaceous",
+          y: arrayEraCounter[0],
+        });
+      }
+      if (arrayEraCounter[1] > 0) {
+        tempArrayEra.push({
+          x: "Triassic",
+          y: arrayEraCounter[1],
+        });
+      }
+      if (arrayEraCounter[2] > 0) {
+        tempArrayEra.push({
+          x: "Jurassic",
+          y: arrayEraCounter[2],
+        });
+      }
       setBarDataHeight(tempArrayHeight);
       setBarDataWeight(tempArrayWeight);
       setScatterDataDate(tempArrayDate);
+      setPieEraData(tempArrayEra);
       console.log("available dinoOptions : ", dinoOptions);
     }
   }, [selectedDinosaurs]);
@@ -100,6 +129,7 @@ const Charts: NextPage = () => {
           weight: d?.weight,
           value: d?.id,
           fossilDate: relatedFossil[0]?.date,
+          mesozoicEra: d?.mesozoicEra,
         });
       }
     }
@@ -268,72 +298,51 @@ const Charts: NextPage = () => {
           />
 
           <VictoryScatter
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
+            }}
             style={{ data: { fill: "#c43a31" } }}
             size={7}
-            data={scatterDataDate}
-          />
-        </VictoryChart>
-        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
-          <VictoryAxis
-            label="Dinosaurs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            label="Weight in kgs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={barDataWeight}
-            style={{
-              data: { fill: "rgb(16 185 129)" },
-            }}
-            x="dinosaur"
-            y="weight"
+            labels={() => null}
             events={[
               {
                 target: "data",
                 eventHandlers: {
-                  onMouseOver: () => {
+                  onClick: () => {
                     return [
                       {
                         target: "data",
-                        mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
-                        }),
+                        mutation: (props) => {
+                          const fill = props.style && props.style.fill;
+                          return fill === "black"
+                            ? null
+                            : { style: { fill: "black" } };
+                        },
                       },
                       {
                         target: "labels",
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => {},
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: false }),
+                        mutation: (props) => {
+                          return props.text === props.data[props.index].y
+                            ? null
+                            : { text: props.data[props.index].y };
+                        },
                       },
                     ];
                   },
                 },
               },
             ]}
+            data={scatterDataDate}
           />
         </VictoryChart>
+        <VictoryPie
+          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          data={pieEraData}
+          animate={{
+            duration: 2000,
+          }}
+        />
       </div>
       <div className="w-screen  flex flex-row">
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
