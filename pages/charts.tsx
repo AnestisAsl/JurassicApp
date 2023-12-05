@@ -177,7 +177,15 @@ const Charts: NextPage = () => {
             labelComponent={<VictoryTooltip />}
             data={barDataHeight}
             style={{
-              data: { fill: "rgb(16 185 129)" },
+              data: { fill: "#34d399" },
+            }}
+            animate={{
+              onExit: {
+                duration: 500,
+                before: () => ({
+                  _y: 0,
+                }),
+              },
             }}
             x="dinosaur"
             y="height"
@@ -190,7 +198,7 @@ const Charts: NextPage = () => {
                       {
                         target: "data",
                         mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
+                          style: { fill: "tomato" },
                         }),
                       },
                       {
@@ -236,10 +244,18 @@ const Charts: NextPage = () => {
             }}
           />
           <VictoryBar
-            labelComponent={<VictoryTooltip />}
+            labelComponent={<VictoryTooltip dy={0} centerOffset={{ x: 25 }} />}
             data={barDataWeight}
             style={{
-              data: { fill: "rgb(16 185 129)" },
+              data: { fill: "#34d399" },
+            }}
+            animate={{
+              onExit: {
+                duration: 500,
+                before: () => ({
+                  _y: 0,
+                }),
+              },
             }}
             x="dinosaur"
             y="weight"
@@ -252,7 +268,7 @@ const Charts: NextPage = () => {
                       {
                         target: "data",
                         mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
+                          style: { fill: "tomato" },
                         }),
                       },
                       {
@@ -299,10 +315,10 @@ const Charts: NextPage = () => {
 
           <VictoryScatter
             animate={{
-              duration: 2000,
+              duration: 1000,
               onLoad: { duration: 1000 },
             }}
-            style={{ data: { fill: "#c43a31" } }}
+            style={{ data: { fill: "#34d399" } }}
             size={7}
             labels={() => null}
             events={[
@@ -315,9 +331,9 @@ const Charts: NextPage = () => {
                         target: "data",
                         mutation: (props) => {
                           const fill = props.style && props.style.fill;
-                          return fill === "black"
+                          return fill === "tomato"
                             ? null
-                            : { style: { fill: "black" } };
+                            : { style: { fill: "tomato" } };
                         },
                       },
                       {
@@ -337,8 +353,10 @@ const Charts: NextPage = () => {
           />
         </VictoryChart>
         <VictoryPie
-          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          colorScale={["#34d399", "tomato", "orange"]}
           data={pieEraData}
+          innerRadius={68}
+          labelRadius={80}
           animate={{
             duration: 2000,
           }}
