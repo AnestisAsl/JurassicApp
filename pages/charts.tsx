@@ -9,6 +9,7 @@ import {
   VictoryBar,
   VictoryChart,
   VictoryPie,
+  VictoryPolarAxis,
   VictoryAxis,
   VictoryTheme,
   VictoryScatter,
@@ -55,6 +56,10 @@ const Charts: NextPage = () => {
     { x: any; y: any }[]
   >([]);
   const [pieEraData, setPieEraData] = React.useState<{ x: any; y: any }[]>([]);
+  const [continentDataChart, setContinentDataChart] = React.useState<
+    { x: any; y: any }[]
+  >([]);
+  const continentsArray = ["America", "Europe", "Asia", "Oceania", "Africa"];
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
     if (selectedDinosaurs) {
@@ -62,7 +67,11 @@ const Charts: NextPage = () => {
       let tempArrayWeight: { dinosaur: any; weight: any; label: any }[] = [];
       let tempArrayDate: { x: any; y: any }[] = [];
       let tempArrayEra: { x: any; y: any }[] = [];
+      let tempArrayContinent: { x: any; y: any }[] = [];
+
       let arrayEraCounter = [0, 0, 0];
+      let arrayContinentCounter = [0, 0, 0, 0, 0];
+
       selectedDinosaurs.forEach((dino: any) => {
         console.log(dino);
         tempArrayHeight.push({
@@ -86,6 +95,26 @@ const Charts: NextPage = () => {
         } else {
           arrayEraCounter[2]++;
         }
+
+        switch (dino.continent) {
+          case "America":
+            arrayContinentCounter[0]++;
+            break;
+          case "Europe":
+            arrayContinentCounter[1]++;
+            break;
+          case "Asia":
+            arrayContinentCounter[2]++;
+            break;
+          case "Oceania":
+            arrayContinentCounter[3]++;
+            break;
+          case "Africa":
+            arrayContinentCounter[4]++;
+            break;
+          default:
+            console.log("default case switch");
+        }
       });
       if (arrayEraCounter[0] > 0) {
         tempArrayEra.push({
@@ -105,10 +134,20 @@ const Charts: NextPage = () => {
           y: arrayEraCounter[2],
         });
       }
+
+      for (let i = 0; i < arrayContinentCounter.length; i++) {
+        if (arrayContinentCounter[i] > 0) {
+          tempArrayContinent.push({
+            x: continentsArray[i],
+            y: arrayContinentCounter[i],
+          });
+        }
+      }
       setBarDataHeight(tempArrayHeight);
       setBarDataWeight(tempArrayWeight);
       setScatterDataDate(tempArrayDate);
       setPieEraData(tempArrayEra);
+      setContinentDataChart(tempArrayContinent);
       console.log("available dinoOptions : ", dinoOptions);
     }
   }, [selectedDinosaurs]);
@@ -123,6 +162,7 @@ const Charts: NextPage = () => {
             return fossil.dinosaurId === d.id;
           }
         });
+
         dinoOptions.push({
           height: d?.height,
           label: d?.name,
@@ -130,6 +170,7 @@ const Charts: NextPage = () => {
           value: d?.id,
           fossilDate: relatedFossil[0]?.date,
           mesozoicEra: d?.mesozoicEra,
+          continent: relatedFossil[0]?.location,
         });
       }
     }
@@ -363,68 +404,26 @@ const Charts: NextPage = () => {
         />
       </div>
       <div className="w-screen  flex flex-row">
-        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
-          <VictoryAxis
-            label="Dinosaurs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            label="Height in meters"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={barDataHeight}
-            style={{
-              data: { fill: "rgb(16 185 129)" },
-            }}
-            x="dinosaur"
-            y="height"
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onMouseOver: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
-                        }),
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => {},
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: false }),
-                      },
-                    ];
-                  },
-                },
-              },
-            ]}
-          />
-        </VictoryChart>
-
+        {selectedDinosaurs.length > 0 && (
+          <VictoryChart polar theme={VictoryTheme.material}>
+            {continentsArray.map((d, i) => {
+              return (
+                <VictoryPolarAxis
+                  dependentAxis
+                  key={i}
+                  label={d}
+                  labelPlacement="perpendicular"
+                  style={{ tickLabels: { fill: "none" } }}
+                  axisValue={d}
+                />
+              );
+            })}
+            <VictoryBar
+              style={{ data: { fill: "tomato", width: 25 } }}
+              data={continentDataChart}
+            />
+          </VictoryChart>
+        )}
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
           <VictoryAxis
             label="Dinosaurs"
