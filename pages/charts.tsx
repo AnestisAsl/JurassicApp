@@ -60,6 +60,7 @@ const Charts: NextPage = () => {
     { x: any; y: any }[]
   >([]);
   const continentsArray = ["America", "Europe", "Asia", "Oceania", "Africa"];
+  const emeraldColor = "#34d399";
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
     if (selectedDinosaurs) {
@@ -218,7 +219,7 @@ const Charts: NextPage = () => {
             labelComponent={<VictoryTooltip />}
             data={barDataHeight}
             style={{
-              data: { fill: "#34d399" },
+              data: { fill: emeraldColor },
             }}
             animate={{
               onExit: {
@@ -288,7 +289,7 @@ const Charts: NextPage = () => {
             labelComponent={<VictoryTooltip dy={0} centerOffset={{ x: 25 }} />}
             data={barDataWeight}
             style={{
-              data: { fill: "#34d399" },
+              data: { fill: emeraldColor },
             }}
             animate={{
               onExit: {
@@ -359,7 +360,7 @@ const Charts: NextPage = () => {
               duration: 1000,
               onLoad: { duration: 1000 },
             }}
-            style={{ data: { fill: "#34d399" } }}
+            style={{ data: { fill: emeraldColor } }}
             size={7}
             labels={() => null}
             events={[
@@ -393,34 +394,59 @@ const Charts: NextPage = () => {
             data={scatterDataDate}
           />
         </VictoryChart>
-        <VictoryPie
-          colorScale={["#34d399", "tomato", "orange"]}
-          data={pieEraData}
-          innerRadius={68}
-          labelRadius={80}
-          animate={{
-            duration: 2000,
-          }}
-        />
+        {selectedDinosaurs.length > 0 && (
+          <VictoryPie
+            colorScale={[emeraldColor, "tomato", "orange"]}
+            data={pieEraData}
+            innerRadius={68}
+            labelRadius={80}
+            animate={{
+              duration: 2000,
+            }}
+          />
+        )}
+        {selectedDinosaurs.length == 0 && (
+          <VictoryPie
+            colorScale={[emeraldColor, "tomato", "orange"]}
+            data={[{ x: "Choose a Dinosaur", y: 1 }]}
+            innerRadius={68}
+            labelRadius={80}
+          />
+        )}
       </div>
       <div className="w-screen  flex flex-row">
-        {selectedDinosaurs.length > 0 && (
+        {selectedDinosaurs.length > 1 && (
           <VictoryChart polar theme={VictoryTheme.material}>
-            {continentsArray.map((d, i) => {
+            {continentDataChart.map((d, i) => {
               return (
                 <VictoryPolarAxis
                   dependentAxis
                   key={i}
-                  label={d}
+                  label={d.x + " : " + d.y}
                   labelPlacement="perpendicular"
                   style={{ tickLabels: { fill: "none" } }}
-                  axisValue={d}
+                  axisValue={d.x}
                 />
               );
             })}
             <VictoryBar
               style={{ data: { fill: "tomato", width: 25 } }}
               data={continentDataChart}
+              animate={{
+                duration: 2000,
+                easing: "bounce",
+              }}
+            />
+          </VictoryChart>
+        )}
+        {selectedDinosaurs.length <= 1 && (
+          <VictoryChart polar theme={VictoryTheme.material}>
+            <VictoryPolarAxis
+              dependentAxis
+              label={"Choose two or more Dinosaurs"}
+              labelPlacement="perpendicular"
+              style={{ tickLabels: { fill: "none" } }}
+              axisAngle={90}
             />
           </VictoryChart>
         )}
