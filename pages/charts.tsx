@@ -60,6 +60,15 @@ const Charts: NextPage = () => {
     { x: any; y: any }[]
   >([]);
   const continentsArray = ["America", "Europe", "Asia", "Oceania", "Africa"];
+  const temperatureData = [
+    { x: 252, y: 28 },
+    { x: 242, y: 25 },
+    { x: 201, y: 24 },
+    { x: 175, y: 18 },
+    { x: 145, y: 19 },
+    { x: 76, y: 24 },
+    { x: 66, y: 22.5 },
+  ];
   const emeraldColor = "#34d399";
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
@@ -450,65 +459,30 @@ const Charts: NextPage = () => {
             />
           </VictoryChart>
         )}
-        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
+        <VictoryChart minDomain={{ y: 15 }}>
           <VictoryAxis
-            label="Dinosaurs"
+            label="Million years ago"
             style={{
               axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
+              axisLabel: { fontSize: 12, padding: 30 },
+              tickLabels: { fontSize: 15, padding: 5 },
             }}
           />
           <VictoryAxis
             dependentAxis
-            label="Weight in kgs"
+            label="Temperature in Celcius"
             style={{
               axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
+              axisLabel: { fontSize: 13, padding: 30 },
+              tickLabels: { fontSize: 15, padding: 5 },
             }}
           />
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={barDataWeight}
-            style={{
-              data: { fill: "rgb(16 185 129)" },
+          <VictoryLine
+            animate={{
+              duration: 2000,
+              onLoad: { duration: 1000 },
             }}
-            x="dinosaur"
-            y="weight"
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onMouseOver: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
-                        }),
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => {},
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: false }),
-                      },
-                    ];
-                  },
-                },
-              },
-            ]}
+            data={temperatureData}
           />
         </VictoryChart>
         <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
