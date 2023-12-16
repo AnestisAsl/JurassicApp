@@ -14,7 +14,7 @@ import {
   VictoryTheme,
   VictoryScatter,
   VictoryTooltip,
-  VictoryStack,
+  VictoryLegend,
   VictoryArea,
   VictoryLine,
   VictoryLabel,
@@ -69,6 +69,7 @@ const Charts: NextPage = () => {
     { x: 76, y: 24 },
     { x: 66, y: 22.5 },
   ];
+
   const emeraldColor = "#34d399";
   React.useEffect(() => {
     console.log(`Option selected:`, selectedDinosaurs);
@@ -426,6 +427,16 @@ const Charts: NextPage = () => {
       <div className="w-screen  flex flex-row">
         {selectedDinosaurs.length > 1 && (
           <VictoryChart polar theme={VictoryTheme.material}>
+            <VictoryLegend
+              x={98}
+              y={20}
+              title=""
+              centerTitle
+              orientation="horizontal"
+              gutter={20}
+              style={{ title: { fontSize: 10 } }}
+              data={[{ name: "Fossils per continent" }]}
+            />
             {continentDataChart.map((d, i) => {
               return (
                 <VictoryPolarAxis
@@ -477,135 +488,15 @@ const Charts: NextPage = () => {
               tickLabels: { fontSize: 15, padding: 5 },
             }}
           />
-          <VictoryLine
-            animate={{
-              duration: 2000,
-              onLoad: { duration: 1000 },
-            }}
-            data={temperatureData}
-          />
-        </VictoryChart>
-        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
-          <VictoryAxis
-            label="Dinosaurs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            label="Weight in kgs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={barDataWeight}
-            style={{
-              data: { fill: "rgb(16 185 129)" },
-            }}
-            x="dinosaur"
-            y="weight"
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onMouseOver: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
-                        }),
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => {},
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: false }),
-                      },
-                    ];
-                  },
-                },
-              },
-            ]}
-          />
-        </VictoryChart>
-        <VictoryChart domainPadding={20} theme={VictoryTheme.material}>
-          <VictoryAxis
-            label="Dinosaurs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            label="Weight in kgs"
-            style={{
-              axis: { stroke: "black" },
-              axisLabel: { fontSize: 10, padding: 30 },
-              tickLabels: { fontSize: 7, padding: 5 },
-            }}
-          />
-          <VictoryBar
-            labelComponent={<VictoryTooltip />}
-            data={barDataWeight}
-            style={{
-              data: { fill: "rgb(16 185 129)" },
-            }}
-            x="dinosaur"
-            y="weight"
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onMouseOver: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => ({
-                          style: { fill: "rgb(225 29 72)", width: 20 },
-                        }),
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: true }),
-                      },
-                    ];
-                  },
-                  onMouseOut: () => {
-                    return [
-                      {
-                        target: "data",
-                        mutation: () => {},
-                      },
-                      {
-                        target: "labels",
-                        mutation: () => ({ active: false }),
-                      },
-                    ];
-                  },
-                },
-              },
-            ]}
-          />
+          {selectedDinosaurs.length >= 1 && (
+            <VictoryLine
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 1000 },
+              }}
+              data={temperatureData}
+            />
+          )}
         </VictoryChart>
       </div>
     </div>

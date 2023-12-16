@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
+import React, { useState } from "react";
+
 import { Parallax } from "react-scroll-parallax";
 import { softShadows, useTexture, Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -44,10 +46,14 @@ const getDinos = gql`
 const Home = () => {
   const { data, error, loading } = useQuery(getDinos);
   const isBrowser = () => typeof window !== "undefined";
+  const [displayText, setDisplayText] = useState(false);
 
   function scrollToTop() {
     if (!isBrowser()) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function changeDisplayAttribute() {
+    setDisplayText(!displayText);
   }
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
@@ -199,24 +205,32 @@ const Home = () => {
         {staticText.fifthTitle}
       </h1>
       <Parallax translateX={[-300, 100]}>
-        <GiDinosaurBones size={128} />
+        <GiDinosaurBones
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={changeDisplayAttribute}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
-        opacity={[0, 1.5]}
+        // opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">{staticText.causeTitle}</h2>
-          <p className="font-Montserrat  text-lg">
-            {staticText.causeText1}
-            <br />
-            {staticText.causeText2}
-            <br />
-            {staticText.causeText3}
-            <br /> {staticText.causeText4}
-          </p>
-        </div>
+        {displayText && (
+          <div className="py-10">
+            <h2 className="font-Montserrat  text-lg	">
+              {staticText.causeTitle}
+            </h2>
+            <p className="font-Montserrat  text-lg">
+              {staticText.causeText1}
+              <br />
+              {staticText.causeText2}
+              <br />
+              {staticText.causeText3}
+              <br /> {staticText.causeText4}
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <h1 className="font-MontserratAlternates  text-xl	py-10">
