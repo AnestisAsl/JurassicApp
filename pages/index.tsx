@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { useState } from "react";
-
 import { Parallax } from "react-scroll-parallax";
 import { softShadows, useTexture, Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -46,14 +45,40 @@ const getDinos = gql`
 const Home = () => {
   const { data, error, loading } = useQuery(getDinos);
   const isBrowser = () => typeof window !== "undefined";
-  const [displayText, setDisplayText] = useState(false);
+  const [displayTextExtinction, setDisplayTextExtinction] = useState(false);
+  const [displayTextMesozoicEra, setDisplayTextMesozoicEra] = useState(false);
+  const [displayTextClimate, setDisplayTextClimate] = useState(false);
+  const [displayTextOcean, setDisplayTextOcean] = useState(false);
+  const [displayTextPlants, setDisplayTextPlants] = useState(false);
+  const [displayTextInsects, setDisplayTextInsects] = useState(false);
 
   function scrollToTop() {
     if (!isBrowser()) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-  function changeDisplayAttribute() {
-    setDisplayText(!displayText);
+  function changeDisplayAttribute(textIndicationNumber: Number) {
+    switch (textIndicationNumber) {
+      case 1:
+        setDisplayTextExtinction(!displayTextExtinction);
+        break;
+      case 2:
+        setDisplayTextMesozoicEra(!displayTextMesozoicEra);
+        break;
+      case 3:
+        setDisplayTextClimate(!displayTextClimate);
+        break;
+      case 4:
+        setDisplayTextOcean(!displayTextOcean);
+        break;
+      case 5:
+        setDisplayTextPlants(!displayTextPlants);
+        break;
+      case 6:
+        setDisplayTextInsects(!displayTextInsects);
+        break;
+      default:
+        console.log("default case on switch statement");
+    }
   }
   if (loading) return <Loading />;
   if (error) return <Error error={error.message} />;
@@ -208,15 +233,15 @@ const Home = () => {
         <GiDinosaurBones
           size={128}
           className="hover:fill-red-900 cursor-pointer"
-          onClick={changeDisplayAttribute}
+          onClick={() => changeDisplayAttribute(1)}
         />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
-        // opacity={[0, 1.5]}
+        // opacity={[0, opacityValue]}
       >
-        {displayText && (
+        {displayTextExtinction && (
           <div className="py-10">
             <h2 className="font-Montserrat  text-lg	">
               {staticText.causeTitle}
@@ -239,24 +264,30 @@ const Home = () => {
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
-        <GiReptileTail size={128} />
+        <GiReptileTail
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={() => changeDisplayAttribute(2)}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
         opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <p className="font-Montserrat  text-lg">
-            {staticText.mesozoicText}
-            <br /> {staticText.mesozoicText1}
-            <br /> {staticText.mesozoicText2}
-            <br /> {staticText.mesozoicText3}
-            <br /> {staticText.mesozoicText4}
-            <br />
-            {staticText.mesozoicText5}
-          </p>
-        </div>
+        {displayTextMesozoicEra && (
+          <div className="py-10">
+            <p className="font-Montserrat  text-lg">
+              {staticText.mesozoicText}
+              <br /> {staticText.mesozoicText1}
+              <br /> {staticText.mesozoicText2}
+              <br /> {staticText.mesozoicText3}
+              <br /> {staticText.mesozoicText4}
+              <br />
+              {staticText.mesozoicText5}
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <li className="font-MontserratAlternates  text-xl	">Triassic</li>
@@ -294,28 +325,34 @@ const Home = () => {
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
-        <GiNeedleJaws size={128} />
+        <GiNeedleJaws
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={() => changeDisplayAttribute(3)}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
         opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">
-            {staticText.weatherTitle}
-          </h2>
-          <p className="font-Montserrat  text-lg">
-            {staticText.weatherText}
-            <br />
-            {staticText.weatherText1}
-            <br />
-            {staticText.weatherText2}
-            <br />
-            {staticText.weatherText3}
-            <br />
-          </p>
-        </div>
+        {displayTextClimate && (
+          <div className="py-10">
+            <h2 className="font-Montserrat  text-lg	">
+              {staticText.weatherTitle}
+            </h2>
+            <p className="font-Montserrat  text-lg">
+              {staticText.weatherText}
+              <br />
+              {staticText.weatherText1}
+              <br />
+              {staticText.weatherText2}
+              <br />
+              {staticText.weatherText3}
+              <br />
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <h1 className="font-MontserratAlternates  text-xl	py-10">
@@ -324,26 +361,35 @@ const Home = () => {
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
-        <GiSharkBite size={128} />
+        <GiSharkBite
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={() => changeDisplayAttribute(4)}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
         opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	"> {staticText.oceansText}</h2>
-          <p className="font-Montserrat  text-lg">
-            {staticText.oceansText1}
-            <br />
-            {staticText.oceansText2} <br />
-            {staticText.oceansText3}
-            <br />
-            {staticText.oceansText4}
-            <br />
-            {staticText.oceansText5}
-          </p>
-        </div>
+        {displayTextOcean && (
+          <div className="py-10">
+            <h2 className="font-Montserrat  text-lg	">
+              {" "}
+              {staticText.oceansText}
+            </h2>
+            <p className="font-Montserrat  text-lg">
+              {staticText.oceansText1}
+              <br />
+              {staticText.oceansText2} <br />
+              {staticText.oceansText3}
+              <br />
+              {staticText.oceansText4}
+              <br />
+              {staticText.oceansText5}
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <h1 className="font-MontserratAlternates  text-xl	py-10">
@@ -352,25 +398,33 @@ const Home = () => {
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
-        <GiCarnivorousPlant size={128} />
+        <GiCarnivorousPlant
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={() => changeDisplayAttribute(5)}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
         opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">{staticText.plantsText0}</h2>
-          <p className="font-Montserrat  text-lg">
-            {staticText.plantsText}
-            <br />
-            {staticText.plantsText1} <br />
-            {staticText.plantsText2} <br />
-            {staticText.plantsText3}
-            <br />
-            {staticText.plantsText4}
-          </p>
-        </div>
+        {displayTextPlants && (
+          <div className="py-10">
+            <h2 className="font-Montserrat  text-lg	">
+              {staticText.plantsText0}
+            </h2>
+            <p className="font-Montserrat  text-lg">
+              {staticText.plantsText}
+              <br />
+              {staticText.plantsText1} <br />
+              {staticText.plantsText2} <br />
+              {staticText.plantsText3}
+              <br />
+              {staticText.plantsText4}
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax scale={[0, 1.5]}>
         <h1 className="font-MontserratAlternates  text-xl	py-10">
@@ -379,25 +433,31 @@ const Home = () => {
       </Parallax>
 
       <Parallax translateX={[-300, 100]}>
-        <GiInsectJaws size={128} />
+        <GiInsectJaws
+          size={128}
+          className="hover:fill-red-900 cursor-pointer"
+          onClick={() => changeDisplayAttribute(6)}
+        />
       </Parallax>
       <Parallax
         translateY={[20, -20]}
         translateX={[100, -100]}
         opacity={[0, 1.5]}
       >
-        <div className="py-10">
-          <h2 className="font-Montserrat  text-lg	">
-            {staticText.insectsText1}
-          </h2>
-          <p className="font-Montserrat  text-lg">
-            {staticText.insectsText2}
-            <br />
-            {staticText.insectsText3}
-            <br />
-            {staticText.insectsText4}
-          </p>
-        </div>
+        {displayTextInsects && (
+          <div className="py-10">
+            <h2 className="font-Montserrat  text-lg	">
+              {staticText.insectsText1}
+            </h2>
+            <p className="font-Montserrat  text-lg">
+              {staticText.insectsText2}
+              <br />
+              {staticText.insectsText3}
+              <br />
+              {staticText.insectsText4}
+            </p>
+          </div>
+        )}
       </Parallax>
       <Parallax translateX={[-300, 100]}>
         <GiBeastEye
