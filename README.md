@@ -2,6 +2,8 @@
 
 ## Description<br>
 
+Under development many things are changing
+
 A full stack Web Application with the tech stack listed bellow. I cretaed my own API that delivers information from my local **postgreSQL** database using the **Apollo-GraphQL** stack. The project as a **Next.js** app was created using the command
 ```
 npx create-next-app@latest --ts
