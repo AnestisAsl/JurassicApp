@@ -21,7 +21,7 @@ model Dinosaur{
 model Fossil {
   id Int @id @default(autoincrement())
   dinosaur Dinosaur @relation(fields: [dinosaurId],references:[id])
-  dinosaurId Int
+  dinosaurId Int @unique
   location String
   date String
   paleontologists String
