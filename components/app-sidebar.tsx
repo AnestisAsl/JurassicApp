@@ -17,21 +17,25 @@ const data = {
   navMain: [
     {
       title: "Prehistoric fauna",
-      url: "#",
+      url: "",
       icon: Shell,
       isActive: true,
       items: [
         {
           title: "Charts",
-          url: "#",
+          url: "charts",
         },
         {
           title: "Flows",
-          url: "#",
+          url: "flows",
         },
         {
           title: "Fossils Map",
-          url: "#",
+          url: "map",
+        },
+        {
+          title: "Home",
+          url: "/",
         },
       ],
     },
