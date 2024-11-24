@@ -17,14 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
 
 const chartConfig = {
   desktop: {
@@ -37,7 +29,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Component() {
+interface PropsObject {
+  month: string;
+  desktop: number;
+  mobile: number;
+}
+interface Props {
+  data: PropsObject[];
+}
+export function Component(props: Props) {
+  console.log("props : ", props);
   return (
     <Card>
       <CardHeader>
@@ -50,7 +51,7 @@ export function Component() {
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={props.data}
             margin={{
               left: 12,
               right: 12,
