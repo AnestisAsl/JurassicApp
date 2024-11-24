@@ -1,6 +1,9 @@
+"use client";
 import { Component } from "@/customComponents/charts/chart";
 import { gql, useQuery } from "@apollo/client";
-
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ErrorPage } from "@/customComponents/errorPage";
 const getData = gql`
   query {
     fossils {
@@ -22,14 +25,37 @@ const getData = gql`
     }
   }
 `;
+
 export default function Page() {
-  // const { data, error, loading } = useQuery(getData);
-  // if (data) console.log("data : ", data);
-  // if (error) console.log("error : ", data);
+  const { data, error, loading } = useQuery(getData);
+  var chartData = [{ month: "", desktop: 0, mobile: 0 }];
+  if (data) {
+    console.log("data : ", data);
+    chartData = [
+      { month: "January", desktop: 186, mobile: 80 },
+      { month: "February", desktop: 305, mobile: 200 },
+      { month: "March", desktop: 237, mobile: 120 },
+      { month: "April", desktop: 73, mobile: 190 },
+      { month: "May", desktop: 209, mobile: 130 },
+      { month: "June", desktop: 214, mobile: 140 },
+    ];
+  }
+  if (error) return <ErrorPage />;
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <h1>charts</h1>
-      <Component />
+    <div>
+      {loading ? (
+        <Button disabled>
+          <Loader2 className="animate-spin" />
+          Please wait
+        </Button>
+      ) : (
+        <div className="grid grid-cols-3 gap-4">
+          <Component data={chartData} />
+          <Component data={chartData} />
+          <Component data={chartData} />
+          <Component data={chartData} />
+        </div>
+      )}
     </div>
   );
 }
