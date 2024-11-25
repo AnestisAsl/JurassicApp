@@ -1,5 +1,7 @@
 "use client";
 import { Component } from "@/customComponents/charts/chart";
+import { WeightHorizontalBarChart } from "@/customComponents/charts/weightHorizontalBarChart";
+
 import { gql, useQuery } from "@apollo/client";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +31,8 @@ const getData = gql`
 export default function Page() {
   const { data, error, loading } = useQuery(getData);
   var chartData = [{ month: "", desktop: 0, mobile: 0 }];
+  let weightHorizontalBarChartData = [];
+
   if (data) {
     console.log("data : ", data);
     chartData = [
@@ -39,6 +43,16 @@ export default function Page() {
       { month: "May", desktop: 209, mobile: 130 },
       { month: "June", desktop: 214, mobile: 140 },
     ];
+    for (const dino of data.dinosaurs) {
+      console.log(dino);
+      let tempDinoObj = {
+        name: dino.name,
+        weight: dino.weight,
+        fill: "var(--color-chrome)",
+      };
+
+      weightHorizontalBarChartData.push(tempDinoObj);
+    }
   }
   if (error) return <ErrorPage />;
   return (
@@ -51,7 +65,7 @@ export default function Page() {
       ) : (
         <div className="grid grid-cols-3 gap-4">
           <Component data={chartData} />
-          <Component data={chartData} />
+          <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
           <Component data={chartData} />
           <Component data={chartData} />
         </div>
