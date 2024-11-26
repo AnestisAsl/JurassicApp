@@ -1,7 +1,7 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Label, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Config } from "tailwindcss";
 
 interface PropsObject {
   name: string;
@@ -26,11 +27,16 @@ interface PropsObject {
 interface Props {
   data: PropsObject[];
 }
+interface CustomConfig {
+  label: string;
+  color: string;
+}
 const chartConfig = {
   weight: {
     label: "weight",
+    color: "hsl(var(--chart-2))",
   },
-  Australotitan: {
+  dinosaur: {
     label: "Australotitan",
     color: "hsl(var(--chart-1))",
   },
@@ -38,6 +44,15 @@ const chartConfig = {
 
 export function WeightHorizontalBarChart(props: Props) {
   console.log("weight data : ", props);
+  // let chartConfig={}
+  // for (let el of props.data) {
+  //   let key = el.name;
+  //   let chartConfig[key] = {
+  //     label: key,
+  //     color: "hsl(var(--chart-1))",
+  //   };
+  // }
+
   return (
     <Card>
       <CardHeader>
@@ -51,20 +66,20 @@ export function WeightHorizontalBarChart(props: Props) {
             data={props.data}
             layout="vertical"
             margin={{
-              left: 0,
+              left: 15,
             }}
           >
             <YAxis
               dataKey="name"
               type="category"
               tickLine={false}
-              tickMargin={10}
+              tickMargin={2}
               axisLine={false}
               tickFormatter={(value) =>
                 chartConfig[value as keyof typeof chartConfig]?.label
               }
             />
-            <XAxis dataKey="weight" type="number" hide />
+            <XAxis dataKey="weight" type="number" />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
