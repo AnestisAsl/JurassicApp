@@ -38,7 +38,7 @@ interface Props {
   data: PropsObject[];
 }
 export function Component(props: Props) {
-  console.log("props : ", props);
+  // console.log("props : ", props);
   return (
     <Card>
       <CardHeader>
