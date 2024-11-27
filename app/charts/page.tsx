@@ -34,7 +34,7 @@ export default function Page() {
   let weightHorizontalBarChartData = [];
 
   if (data) {
-    console.log("data : ", data);
+    console.log("api data : ", data);
     chartData = [
       { month: "January", desktop: 186, mobile: 80 },
       { month: "February", desktop: 305, mobile: 200 },
@@ -43,15 +43,19 @@ export default function Page() {
       { month: "May", desktop: 209, mobile: 130 },
       { month: "June", desktop: 214, mobile: 140 },
     ];
+    let color = 1;
+
     for (const dino of data.dinosaurs) {
-      console.log(dino);
-      let tempDinoObj = {
+      if (color === 6) {
+        color = 1;
+      }
+      let tempDinoObjWeight = {
         name: dino.name,
         weight: dino.weight,
-        fill: "var(--color-chrome)",
+        fill: `hsl(var(--chart-${color} ))`,
       };
-
-      weightHorizontalBarChartData.push(tempDinoObj);
+      color++;
+      weightHorizontalBarChartData.push(tempDinoObjWeight);
     }
   }
   if (error) return <ErrorPage />;
@@ -63,7 +67,7 @@ export default function Page() {
           Please wait
         </Button>
       ) : (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <Component data={chartData} />
           <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
           <Component data={chartData} />
