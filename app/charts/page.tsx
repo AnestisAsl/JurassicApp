@@ -31,20 +31,22 @@ const getData = gql`
 `;
 
 export default function Page() {
+  const [selectedDinosaurs, setSelectedDinosaurs] = useState<string[]>([]);
+  let dinosaursList = [];
+  let dinosaursToCharts = [];
   const { data, error, loading } = useQuery(getData);
-  var chartData = [{ month: "", desktop: 0, mobile: 0 }];
+
   let weightHorizontalBarChartData = [];
 
   if (data) {
-    console.log("api data : ", data);
-    chartData = [
-      { month: "January", desktop: 186, mobile: 80 },
-      { month: "February", desktop: 305, mobile: 200 },
-      { month: "March", desktop: 237, mobile: 120 },
-      { month: "April", desktop: 73, mobile: 190 },
-      { month: "May", desktop: 209, mobile: 130 },
-      { month: "June", desktop: 214, mobile: 140 },
-    ];
+    // console.log("api data : ", data);
+    // dinosaursToCharts=data.dinosaurs
+    dinosaursList = data.dinosaurs;
+
+    console.log("selected: ", selectedDinosaurs);
+    // if(selectedDinosaurs)
+    //   dinosaursToCharts=data.dinosaurs
+
     let color = 1;
 
     for (const dino of data.dinosaurs) {
@@ -60,18 +62,6 @@ export default function Page() {
       weightHorizontalBarChartData.push(tempDinoObjWeight);
     }
   }
-  const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([
-    "react",
-    "angular",
-  ]);
-
-  const frameworksList = [
-    { value: "react", label: "React" },
-    { value: "angular", label: "Angular" },
-    { value: "vue", label: "Vue" },
-    { value: "svelte", label: "Svelte" },
-    { value: "ember", label: "Ember" },
-  ];
 
   if (error) return <ErrorPage />;
   return (
@@ -82,30 +72,26 @@ export default function Page() {
           Please wait
         </Button>
       ) : (
-        <div className="p-4 max-w-xl">
-          <h1 className="text-2xl font-bold mb-4">Multi-Select Component</h1>
-          <MultiSelect
-            options={frameworksList}
-            onValueChange={setSelectedFrameworks}
-            defaultValue={selectedFrameworks}
-            placeholder="Select frameworks"
-            variant="inverted"
-            animation={2}
-            maxCount={3}
-          />
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold">Selected Frameworks:</h2>
-            <ul className="list-disc list-inside">
-              {selectedFrameworks.map((framework) => (
-                <li key={framework}>{framework}</li>
-              ))}
-            </ul>
+        <div className="p-4 w-full ">
+          <div className="justify-self-center p-4">
+            <h1 className="text-2xl font-bold mb-4">
+              Select the dinosaurs you want to compare
+            </h1>
+            <MultiSelect
+              options={dinosaursList}
+              onValueChange={setSelectedDinosaurs}
+              // defaultValue={selectedDinosaurs}
+              placeholder="Select Dinosaurs"
+              variant="inverted"
+              animation={2}
+              maxCount={3}
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Component data={chartData} />
             <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
-            <Component data={chartData} />
-            <Component data={chartData} />
+            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
+            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
+            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
           </div>
         </div>
       )}
