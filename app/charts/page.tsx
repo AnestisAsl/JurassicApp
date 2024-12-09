@@ -33,33 +33,40 @@ const getData = gql`
 export default function Page() {
   const [selectedDinosaurs, setSelectedDinosaurs] = useState<string[]>([]);
   let dinosaursList = [];
-  let dinosaursToCharts = [];
   const { data, error, loading } = useQuery(getData);
 
   let weightHorizontalBarChartData = [];
 
   if (data) {
     // console.log("api data : ", data);
-    // dinosaursToCharts=data.dinosaurs
     dinosaursList = data.dinosaurs;
-
     console.log("selected: ", selectedDinosaurs);
-    // if(selectedDinosaurs)
-    //   dinosaursToCharts=data.dinosaurs
-
     let color = 1;
 
     for (const dino of data.dinosaurs) {
       if (color === 6) {
         color = 1;
       }
-      let tempDinoObjWeight = {
-        name: dino.name,
-        weight: dino.weight,
-        fill: `hsl(var(--chart-${color} ))`,
-      };
+      if (selectedDinosaurs.length > 0) {
+        if (selectedDinosaurs.includes(dino.id)) {
+          let tempDinoObjWeight = {
+            name: dino.name,
+            weight: dino.weight,
+            fill: `hsl(var(--chart-${color} ))`,
+          };
+          weightHorizontalBarChartData.push(tempDinoObjWeight);
+        }
+      } else {
+        // default values
+        let tempDinoObjWeight = {
+          name: dino.name,
+          weight: dino.weight,
+          fill: `hsl(var(--chart-${color} ))`,
+        };
+        weightHorizontalBarChartData.push(tempDinoObjWeight);
+      }
+
       color++;
-      weightHorizontalBarChartData.push(tempDinoObjWeight);
     }
   }
 
@@ -80,7 +87,6 @@ export default function Page() {
             <MultiSelect
               options={dinosaursList}
               onValueChange={setSelectedDinosaurs}
-              // defaultValue={selectedDinosaurs}
               placeholder="Select Dinosaurs"
               variant="inverted"
               animation={2}
