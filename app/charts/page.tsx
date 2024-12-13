@@ -1,6 +1,7 @@
 "use client";
-import { Component } from "@/customComponents/charts/chart";
 import { WeightHorizontalBarChart } from "@/customComponents/charts/weightHorizontalBarChart";
+import { HeightBarChart } from "@/customComponents/charts/heigtBarChart";
+
 import { MultiSelect } from "@/components/multi-select";
 import { useState } from "react";
 
@@ -36,7 +37,7 @@ export default function Page() {
   const { data, error, loading } = useQuery(getData);
 
   let weightHorizontalBarChartData = [];
-
+  let heightBarChartData = [];
   if (data) {
     // console.log("api data : ", data);
     dinosaursList = data.dinosaurs;
@@ -54,6 +55,12 @@ export default function Page() {
             weight: dino.weight,
             fill: `hsl(var(--chart-${color} ))`,
           };
+          let tempDinoObjHeight = {
+            name: dino.name,
+            height: dino.height,
+            fill: `hsl(var(--chart-${color} ))`,
+          };
+          heightBarChartData.push(tempDinoObjHeight);
           weightHorizontalBarChartData.push(tempDinoObjWeight);
         }
       } else {
@@ -63,6 +70,12 @@ export default function Page() {
           weight: dino.weight,
           fill: `hsl(var(--chart-${color} ))`,
         };
+        let tempDinoObjHeight = {
+          name: dino.name,
+          height: dino.height,
+          fill: `hsl(var(--chart-${color} ))`,
+        };
+        heightBarChartData.push(tempDinoObjHeight);
         weightHorizontalBarChartData.push(tempDinoObjWeight);
       }
 
@@ -95,9 +108,9 @@ export default function Page() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
-            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
-            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
-            <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
+            <HeightBarChart data={heightBarChartData} />
+            {/* <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
+            <WeightHorizontalBarChart data={weightHorizontalBarChartData} /> */}
           </div>
         </div>
       )}
