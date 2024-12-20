@@ -1,6 +1,8 @@
 "use client";
 import { WeightHorizontalBarChart } from "@/customComponents/charts/weightHorizontalBarChart";
 import { HeightBarChart } from "@/customComponents/charts/heigtBarChart";
+import { PieMesozoicPeriodChart } from "@/customComponents/charts/pieMesozoicPediodChart";
+import { LineTimeLineChart } from "@/customComponents/charts/lineTimeLineChart";
 
 import { MultiSelect } from "@/components/multi-select";
 import { useState } from "react";
@@ -38,12 +40,15 @@ export default function Page() {
 
   let weightHorizontalBarChartData = [];
   let heightBarChartData = [];
-  if (data) {
-    // console.log("api data : ", data);
-    dinosaursList = data.dinosaurs;
-    console.log("selected: ", selectedDinosaurs);
-    let color = 1;
+  let mesozoicPieChartData = [];
+  let timeLineData = [];
 
+  if (data) {
+    console.log("api data : ", data);
+    dinosaursList = data.dinosaurs;
+    // console.log("selected: ", selectedDinosaurs);
+    let color = 1;
+    let mesozoicPeriodArray = [];
     for (const dino of data.dinosaurs) {
       if (color === 6) {
         color = 1;
@@ -60,8 +65,21 @@ export default function Page() {
             height: dino.height,
             fill: `hsl(var(--chart-${color} ))`,
           };
+          let tempFossildate = 0;
+          for (const fossil of data.fossils) {
+            if (fossil.dinosaurId === dino.id) {
+              tempFossildate = Number(fossil.date);
+            }
+          }
+          let tempTimeLineObj = {
+            dinosaurName: dino.name,
+            date: tempFossildate,
+            fill: `hsl(var(--chart-${color} ))`,
+          };
           heightBarChartData.push(tempDinoObjHeight);
           weightHorizontalBarChartData.push(tempDinoObjWeight);
+          mesozoicPeriodArray.push(dino.mesozoicEra);
+          timeLineData.push(tempTimeLineObj);
         }
       } else {
         // default values
@@ -75,11 +93,44 @@ export default function Page() {
           height: dino.height,
           fill: `hsl(var(--chart-${color} ))`,
         };
+        let tempFossildate = 0;
+
+        for (const fossil of data.fossils) {
+          if (fossil.dinosaurId === dino.id) {
+            tempFossildate = Number(fossil.date);
+          }
+        }
+        let tempTimeLineObj = {
+          dinosaurName: dino.name,
+          date: tempFossildate,
+          fill: `hsl(var(--chart-${color} ))`,
+        };
         heightBarChartData.push(tempDinoObjHeight);
         weightHorizontalBarChartData.push(tempDinoObjWeight);
+        mesozoicPeriodArray.push(dino.mesozoicEra);
+        timeLineData.push(tempTimeLineObj);
       }
 
       color++;
+    }
+    color = 1;
+    let mesozoicObj = mesozoicPeriodArray.reduce((acc: any, cur: any) => {
+      acc[cur]
+        ? acc[cur].dinosaurNumber++
+        : (acc[cur] = {
+            period: cur,
+            dinosaurNumber: 1,
+          });
+      return acc;
+    }, {});
+
+    for (const property in mesozoicObj) {
+      mesozoicObj[property].fill = `hsl(var(--chart-${color} ))`;
+      mesozoicPieChartData.push(mesozoicObj[property]);
+      color++;
+      if (color === 6) {
+        color = 1;
+      }
     }
   }
 
@@ -109,8 +160,8 @@ export default function Page() {
           <div className="grid grid-cols-2 gap-4">
             <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
             <HeightBarChart data={heightBarChartData} />
-            {/* <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
-            <WeightHorizontalBarChart data={weightHorizontalBarChartData} /> */}
+            <PieMesozoicPeriodChart data={mesozoicPieChartData} />
+            <LineTimeLineChart data={timeLineData} />
           </div>
         </div>
       )}
