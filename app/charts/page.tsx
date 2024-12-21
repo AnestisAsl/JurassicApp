@@ -3,7 +3,7 @@ import { WeightHorizontalBarChart } from "@/customComponents/charts/weightHorizo
 import { HeightBarChart } from "@/customComponents/charts/heigtBarChart";
 import { PieMesozoicPeriodChart } from "@/customComponents/charts/pieMesozoicPediodChart";
 import { LineTimeLineChart } from "@/customComponents/charts/lineTimeLineChart";
-
+import { LocationAreaChart } from "@/customComponents/charts/locationAreaChart";
 import { MultiSelect } from "@/components/multi-select";
 import { useState } from "react";
 
@@ -160,8 +160,13 @@ export default function Page() {
           <div className="grid grid-cols-2 gap-4">
             <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
             <HeightBarChart data={heightBarChartData} />
-            <PieMesozoicPeriodChart data={mesozoicPieChartData} />
-            <LineTimeLineChart data={timeLineData} />
+            <div className="grid grid-cols-2 gap-4">
+              <PieMesozoicPeriodChart data={mesozoicPieChartData} />
+              <LineTimeLineChart data={timeLineData} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <LocationAreaChart />
+            </div>
           </div>
         </div>
       )}
