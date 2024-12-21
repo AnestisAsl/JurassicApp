@@ -1,7 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, Label, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -17,7 +16,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Config } from "tailwindcss";
 
 interface PropsObject {
   name: string;
@@ -30,19 +28,9 @@ interface Props {
 interface CustomConfig {
   [key: string]: any;
 }
-// const chartConfig = {
-//   weight: {
-//     label: "weight",
-//     color: "hsl(var(--chart-2))",
-//   },
-//   dinosaur: {
-//     label: "Australotitan",
-//     color: "hsl(var(--chart-1))",
-//   },
-// } satisfies ChartConfig;
 
 export function WeightHorizontalBarChart(props: Props) {
-  console.log("weight data : ", props);
+  // console.log("weight data : ", props);
   let chartConfig: CustomConfig = {};
   for (let el of props.data) {
     let key = el.name;
@@ -53,9 +41,8 @@ export function WeightHorizontalBarChart(props: Props) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Bar Chart - Mixed</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Weight Comparison</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -86,9 +73,9 @@ export function WeightHorizontalBarChart(props: Props) {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing weight in Kilogramms.
+          Weight in Kilogramms.
         </div>
       </CardFooter>
     </Card>

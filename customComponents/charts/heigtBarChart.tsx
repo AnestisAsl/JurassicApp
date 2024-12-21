@@ -31,7 +31,7 @@ interface CustomConfig {
 }
 
 export function HeightBarChart(props: Props) {
-  console.log("height data : ", props);
+  // console.log("height data : ", props);
   for (let dino of props.data) {
     if (dino.name === "Tyrannosaurus Rex") {
       dino.name = "T-Rex";
@@ -46,8 +46,8 @@ export function HeightBarChart(props: Props) {
   }
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Height Bar Chart</CardTitle>
+      <CardHeader className="items-center pb-0">
+        <CardTitle>Height Comparison</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -70,9 +70,9 @@ export function HeightBarChart(props: Props) {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing height in meters
+          Height in meters
         </div>
       </CardFooter>
     </Card>

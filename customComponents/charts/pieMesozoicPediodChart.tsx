@@ -44,7 +44,7 @@ export function PieMesozoicPeriodChart(props: Props) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Mesozoic Pie Chart</CardTitle>
+        <CardTitle>Mesozoic Periods</CardTitle>
         <CardDescription className="items-center">
           Hover over the Pie Chart
         </CardDescription>
@@ -74,7 +74,7 @@ export function PieMesozoicPeriodChart(props: Props) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Mesozoic periods
+          Displaying the period that the selected dinosaurs belong to.
         </div>
       </CardFooter>
     </Card>
