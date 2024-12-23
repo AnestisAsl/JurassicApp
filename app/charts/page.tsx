@@ -42,13 +42,15 @@ export default function Page() {
   let heightBarChartData = [];
   let mesozoicPieChartData = [];
   let timeLineData = [];
-
+  let locationData = [];
   if (data) {
     console.log("api data : ", data);
+
     dinosaursList = data.dinosaurs;
     // console.log("selected: ", selectedDinosaurs);
     let color = 1;
     let mesozoicPeriodArray = [];
+    let continentArray = [];
     for (const dino of data.dinosaurs) {
       if (color === 6) {
         color = 1;
@@ -69,6 +71,7 @@ export default function Page() {
           for (const fossil of data.fossils) {
             if (fossil.dinosaurId === dino.id) {
               tempFossildate = Number(fossil.date);
+              continentArray.push(fossil.location);
             }
           }
           let tempTimeLineObj = {
@@ -98,6 +101,7 @@ export default function Page() {
         for (const fossil of data.fossils) {
           if (fossil.dinosaurId === dino.id) {
             tempFossildate = Number(fossil.date);
+            continentArray.push(fossil.location);
           }
         }
         let tempTimeLineObj = {
@@ -123,6 +127,18 @@ export default function Page() {
           });
       return acc;
     }, {});
+    let continentObj = continentArray.reduce((acc: any, cur: any) => {
+      acc[cur]
+        ? acc[cur].dinosaurs++
+        : (acc[cur] = {
+            continent: cur,
+            dinosaurs: 1,
+          });
+      return acc;
+    }, {});
+    for (const property in continentObj) {
+      locationData.push(continentObj[property]);
+    }
 
     for (const property in mesozoicObj) {
       mesozoicObj[property].fill = `hsl(var(--chart-${color} ))`;
@@ -136,7 +152,7 @@ export default function Page() {
 
   if (error) return <ErrorPage />;
   return (
-    <div>
+    <div className="flex justify-center ">
       {loading ? (
         <Button disabled>
           <Loader2 className="animate-spin" />
@@ -157,16 +173,14 @@ export default function Page() {
               maxCount={3}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <WeightHorizontalBarChart data={weightHorizontalBarChartData} />
             <HeightBarChart data={heightBarChartData} />
-            <div className="grid grid-cols-2 gap-4">
-              <PieMesozoicPeriodChart data={mesozoicPieChartData} />
-              <LineTimeLineChart data={timeLineData} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <LocationAreaChart />
-            </div>
+            <LineTimeLineChart data={timeLineData} />
+          </div>
+          <div className="grid grid-cols-2 gap-4 pt-5">
+            <PieMesozoicPeriodChart data={mesozoicPieChartData} />
+            <LocationAreaChart data={locationData} />
           </div>
         </div>
       )}
