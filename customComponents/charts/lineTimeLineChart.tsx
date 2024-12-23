@@ -56,7 +56,7 @@ export function LineTimeLineChart(props: Props) {
             accessibilityLayer
             data={props.data}
             margin={{
-              top: 150,
+              top: 24,
               left: 24,
               right: 24,
             }}

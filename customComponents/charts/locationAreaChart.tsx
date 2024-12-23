@@ -17,23 +17,22 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 285 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 203 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 264 },
-];
 
+interface PropsObject {
+  continent: string;
+  dinosaurs: number;
+}
+interface Props {
+  data: PropsObject[];
+}
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  continent: {
+    label: "Continent",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export function LocationAreaChart() {
+export function LocationAreaChart(props: Props) {
   return (
     <Card>
       <CardHeader className="items-center pb-4">
@@ -47,16 +46,16 @@ export function LocationAreaChart() {
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
-          <RadarChart data={chartData}>
+          <RadarChart data={props.data}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <PolarGrid
-              className="fill-[--color-desktop] opacity-20"
+              className="fill-[--color-continent] opacity-20"
               gridType="circle"
             />
-            <PolarAngleAxis dataKey="month" />
+            <PolarAngleAxis dataKey="continent" />
             <Radar
-              dataKey="desktop"
-              fill="var(--color-desktop)"
+              dataKey="dinosaurs"
+              fill="var(--color-continent)"
               fillOpacity={0.5}
             />
           </RadarChart>
