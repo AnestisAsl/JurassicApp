@@ -95,7 +95,7 @@ export function LineTimeLineChart(props: Props) {
       </CardContent>
       <CardFooter className="flex-col  text-sm ">
         <div className="flex gap-2 font-medium leading-none">
-          Displaying when the fossils of the selected dinosaurs found.
+          Displaying when the fossils of the selected dinosaurs were found.
         </div>
       </CardFooter>
     </Card>
