@@ -339,7 +339,7 @@ function GeologicTimeFlow() {
     [setEdges]
   );
   return (
-    <div style={{ height: "50vh", width: "50vw" }}>
+    <div style={{ height: "50vh", width: "100%" }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
