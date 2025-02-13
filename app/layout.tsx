@@ -33,25 +33,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SidebarProvider>
-              <AppSidebar />
-              <main className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-screen">
-                <div className="flex gap-3 items-center">
-                  <SidebarTrigger />
-                  <ModeToggle />
-                </div>
-                {children}
-              </main>
-            </SidebarProvider>
-          </ThemeProvider>
-        </Provider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-screen">
+              <div className="flex gap-3 items-center">
+                <SidebarTrigger />
+                <ModeToggle />
+              </div>
+              <Provider>{children} </Provider>
+            </main>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
