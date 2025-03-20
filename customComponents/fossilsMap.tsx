@@ -1,16 +1,25 @@
+"use client";
 import React from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
 
 export default function FossilsMap() {
   return (
     <ComposableMap>
-      <Geographies geography={geoUrl}>
+      <Geographies geography="/geoJSONdata.json">
         {({ geographies }) =>
           geographies.map((geo) => (
-            <Geography key={geo.rsmKey} geography={geo} />
+            <Geography
+              key={geo.rsmKey}
+              geography={geo}
+              style={{
+                default: {
+                  fill: "blue",
+                },
+                hover: {
+                  fill: "#F53",
+                },
+              }}
+            />
           ))
         }
       </Geographies>
