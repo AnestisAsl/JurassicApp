@@ -5,7 +5,12 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
+.templateClass {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 /* @layer base {
   :root {
     --background: 0 0% 100%;
