@@ -69,6 +69,12 @@ const data = {
       title: "Tech stack",
       url: "#",
       icon: SearchCode,
+      items: [
+        {
+          title: "What is this project",
+          url: "techStack",
+        },
+      ],
     },
   ],
 };

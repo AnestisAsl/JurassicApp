@@ -153,6 +153,8 @@ const FossilsMap = () => {
                         <ul>
                           <li>Paleontologist(s) : ${fossilData.paleontologists}</li>
                           <li>Date : ${fossilData.date}</li>
+                          <li>  ${dinosaurData.facts}</li>
+
                         </ul>
           
                       </div>
@@ -160,8 +162,8 @@ const FossilsMap = () => {
                 >
                   <g
                     fill="none"
-                    stroke="#FF5533"
-                    strokeWidth="1"
+                    stroke="black"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     transform="translate(-12, -24)"
