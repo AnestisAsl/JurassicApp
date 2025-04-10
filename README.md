@@ -33,3 +33,11 @@ The UI was mainly created with **Shadcn** componenets that I modified accordingl
 * Prisma Studio
 
 Please have a look also to the package files.
+
+## Future Developments<br>
+
+* Adding more data
+* Compelete the Extinction and Climate section
+
+
+
