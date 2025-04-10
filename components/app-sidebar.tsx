@@ -39,17 +39,7 @@ const data = {
         },
       ],
     },
-    {
-      title: "Prehistoric flora",
-      url: "#",
-      icon: Leaf,
-      items: [
-        {
-          title: "Charts",
-          url: "#",
-        },
-      ],
-    },
+
     {
       title: "Others",
       url: "#",

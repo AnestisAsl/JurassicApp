@@ -149,7 +149,6 @@ export default function Page() {
       }
     }
   }
-
   if (error) return <ErrorPage />;
   return (
     <div className="flex justify-center ">
